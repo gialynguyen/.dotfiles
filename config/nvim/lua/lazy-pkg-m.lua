@@ -404,7 +404,7 @@ require("lazy").setup({
     config = function()
       require "plugins-opts.nvim-tree"
     end,
-    event = "VeryLazy",
+    lazy = false
   },
 
   {

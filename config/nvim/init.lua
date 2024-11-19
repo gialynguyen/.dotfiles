@@ -110,7 +110,10 @@ end
 local function set_options()
   vim.cmd("set background=dark")
   vim.cmd("colorscheme tokyonight")
-  -- ... other colorscheme options
+
+  -- Disable netrw
+  vim.g.loaded_netrw = 1
+  vim.g.loaded_netrwPlugin = 1
 end
 
 local function check_user_settings()
