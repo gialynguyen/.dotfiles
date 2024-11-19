@@ -1,7 +1,9 @@
 #!/bin/bash
 # stow.sh
 
-DOTFILES="$HOME/Dev/personal/.dotfiles"
+# Get the directory where the script is located
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+DOTFILES="$SCRIPT_DIR"
 CONFIG_DIR="$HOME/.config"
 
 # Colors
