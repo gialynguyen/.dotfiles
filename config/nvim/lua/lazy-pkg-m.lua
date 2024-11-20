@@ -225,13 +225,21 @@ require("lazy").setup({
   },
 
   {
-    "lukas-reineke/indent-blankline.nvim",
+    "nvimdev/indentmini.nvim",
     config = function()
-      require "plugins-opts.indent-blankline"
+      require "plugins-opts.indentmini"
     end,
-    event = { "BufReadPost" },
-    main = "ibl",
+    event = "BufReadPost",
   },
+
+  -- {
+  --   "lukas-reineke/indent-blankline.nvim",
+  --   config = function()
+  --     require "plugins-opts.indent-blankline"
+  --   end,
+  --   event = { "BufReadPost" },
+  --   main = "ibl",
+  -- },
 
   {
     "windwp/nvim-autopairs",
