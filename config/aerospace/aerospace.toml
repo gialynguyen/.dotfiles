@@ -115,14 +115,14 @@ alt-1 = 'workspace Code'
 alt-2 = 'workspace Research'
 alt-3 = 'workspace Media'
 alt-a = 'workspace Chat'
-alt-b = 'workspace Preview'
+alt-s = 'workspace Preview'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
 alt-shift-1 = ['move-node-to-workspace Code', 'workspace Code']
 alt-shift-2 = ['move-node-to-workspace Research', 'workspace Research']
 alt-shift-3 = ['move-node-to-workspace Media', 'workspace Media']
 alt-shift-a = ['move-node-to-workspace Chat', 'workspace Chat']
-alt-shift-b = ['move-node-to-workspace Preview', 'workspace Preview']
+alt-shift-s = ['move-node-to-workspace Preview', 'workspace Preview']
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
 alt-tab = 'workspace-back-and-forth'
