@@ -65,19 +65,7 @@ require("lazy").setup({
     priority = 1000, -- make sure to load this before all the other start plugins
   },
 
-  { "nyoom-engineering/oxocarbon.nvim", lazy = false, priority = 1000 },
-
-  -- {
-  --   "sainnhe/everforest",
-  --   priority = 1000,
-  --   lazy = false,
-  -- },
-
-  -- {
-  --   "navarasu/onedark.nvim",
-  --   lazy = false,
-  --   priority = 1000,
-  -- },
+  { "nyoom-engineering/oxocarbon.nvim", lazy = false,  priority = 1000 },
 
   {
     "folke/tokyonight.nvim",
@@ -506,6 +494,8 @@ require("lazy").setup({
       "BufReadPost",
     },
   },
+
+  { 'akinsho/git-conflict.nvim',        version = "*", config = true,  lazy = false },
 
   {
     "tpope/vim-fugitive",
