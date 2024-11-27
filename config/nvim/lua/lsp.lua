@@ -37,7 +37,7 @@ require("mason-lspconfig").setup_handlers {
       tailwindcss = {
         autostart = false,
       },
-      ['ts_ls'] = {
+      ["ts_ls"] = {
         enabled = false,
         autostart = false,
       },
@@ -166,7 +166,20 @@ require("mason-lspconfig").setup_handlers {
 
 vim.diagnostic.config {
   virtual_text = false,
-  signs = false,
-  underline = true,
-  virtual_lines = false,
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = '',
+      [vim.diagnostic.severity.WARN] = '',
+      [vim.diagnostic.severity.INFO] = '',
+      [vim.diagnostic.severity.HINT] = '󰌵',
+    },
+  },
+  virtual_lines = true,
+  float = {
+    show_header = true,
+    source = "if_many",
+    border = "rounded",
+    focusable = false,
+  },
+  severity_sort = true
 }
