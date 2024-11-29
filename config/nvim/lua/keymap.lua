@@ -22,6 +22,7 @@ vim.keymap.set("n", "<leader>go", "<cmd>DiffviewOpen<CR>")
 vim.keymap.set("n", "<leader>gh", "<cmd>DiffviewFileHistory %<CR>")
 vim.keymap.set("n", "<leader>gH", "<cmd>DiffviewFileHistory<CR>")
 
+local virtual_text = false
 --- LSP keymap
 vim.api.nvim_create_autocmd("LspAttach", {
   desc = "LSP actions",
@@ -51,7 +52,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
     vim.keymap.set("n", "<leader>]", "<cmd>lua vim.diagnostic.goto_next()<CR>", opts)
 
-    local virtual_text = false
     vim.keymap.set("n", ",dt", function()
       virtual_text = not virtual_text
 

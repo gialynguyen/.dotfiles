@@ -165,6 +165,7 @@ require("mason-lspconfig").setup_handlers {
 }
 
 vim.diagnostic.config {
+  update_in_insert = true,
   virtual_text = false,
   signs = {
     text = {

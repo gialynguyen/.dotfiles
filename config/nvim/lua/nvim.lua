@@ -18,6 +18,7 @@ vim.o.laststatus = 3
 vim.wo.wrap = true
 vim.wo.list = false
 vim.wo.linebreak = true
+vim.opt.signcolumn = "yes"
 
 vim.g.mapleader = "\\"
 vim.g.loaded_matchparen = true
