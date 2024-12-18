@@ -8,9 +8,9 @@ local function check_gui_running()
   end
 end
 
-local function check_macos_ventura()
-  if vim.fn.filereadable("/opt/homebrew/bin/fish") then
-    vim.cmd("set shell=/opt/homebrew/bin/fish")
+local function set_default_shell()
+  if os.getenv("SHELL") then
+    vim.cmd("set shell=" .. os.getenv("SHELL"))
   end
 end
 
@@ -124,7 +124,7 @@ end
 
 -- Call functions in a logical order
 check_gui_running()
-check_macos_ventura()
+set_default_shell()
 check_termguicolors()
 load_runtime_files()
 require_modules()

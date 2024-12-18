@@ -11,82 +11,82 @@ end
 
 local refresh_ui = function()
   if vim.g.transparent_enabled == true then
-    vim.cmd [[
-      hi BufferLineFill guibg=NONE guifg=NONE
-      hi BufferLineBackground guibg=NONE guifg=NONE
-
-      hi BufferLineTab guibg=NONE guifg=NONE
-      hi BufferLineTabSelected guibg=NONE guifg=NONE
-      hi BufferLineTabClose guibg=NONE guifg=NONE
-      hi BufferLineTabSeparator guibg=NONE guifg=NONE
-      hi BufferLineTabSelected guibg=NONE guifg=NONE
-
-      hi BufferLineNumbers guibg=NONE guifg=NONE
-
-      hi BufferLineDuplicate guibg=NONE guifg=NONE
-
-      hi BufferLineDiagnostic guibg=NONE guifg=NONE
-      hi BufferLineDiagnosticVisble guibg=NONE guifg=NONE
-      hi BufferLineDiagnosticSelected guibg=NONE guifg=NONE
-
-      hi BufferLineError guibg=NONE guifg=NONE
-      hi BufferLineErrorVisible guibg=NONE guifg=NONE
-      hi BufferLineErrorSelected guibg=NONE guifg=NONE
-      hi BufferLineErrorDiagnostic guibg=NONE guifg=NONE
-      hi BufferLineErrorDiagnosticSelected guibg=NONE guifg=NONE
-      hi BufferLineErrorDiagnosticVisible guibg=NONE guifg=NONE
-
-      hi BufferLineWarning guibg=NONE guifg=NONE
-      hi BufferLineWarningVisible guibg=NONE guifg=NONE
-      hi BufferLineWarningSelected guibg=NONE guifg=NONE
-      hi BufferLineWarningDiagnostic guibg=NONE guifg=NONE
-      hi BufferLineWarningDiagnosticSelected guibg=NONE guifg=NONE
-      hi BufferLineWarningDiagnosticVisible guibg=NONE guifg=NONE
-
-      hi BufferLineInfo guibg=NONE guifg=NONE
-      hi BufferLineInfoVisible guibg=NONE guifg=NONE
-      hi BufferLineInfoSelected guibg=NONE guifg=NONE
-      hi BufferLineInfoDiagnostic guibg=NONE guifg=NONE
-      hi BufferLineInfoDiagnosticSelected guibg=NONE guifg=NONE
-      hi BufferLineInfoDiagnosticVisible guibg=NONE guifg=NONE
-
-      hi BufferLineHint guibg=NONE guifg=NONE
-      hi BufferLineHintVisible guibg=NONE guifg=NONE
-      hi BufferLineHintSelected guibg=NONE guifg=NONE
-      hi BufferLineHintDiagnostic guibg=NONE guifg=NONE
-      hi BufferLineHintDiagnosticSelected guibg=NONE guifg=NONE
-      hi BufferLineHintDiagnosticVisible guibg=NONE guifg=NONE
-
-      hi BufferLineCloseButton guibg=NONE guifg=NONE
-      hi BufferLineCloseButtonVisible guibg=NONE guifg=NONE
-      hi BufferLineCloseButtonSelected guibg=NONE guifg=NONE
-
-      hi BufferLineBuffer guibg=NONE guifg=NONE
-      hi BufferLineBufferVisible guibg=NONE guifg=NONE
-      hi BufferLineBufferSelected guibg=NONE guifg=NONE
-
-      hi BufferLineNumbers guibg=NONE guifg=NONE
-      hi BufferLineNumbersVisible guibg=NONE guifg=NONE
-      hi BufferLineNumbersSelected guibg=NONE guifg=NONE
-
-      hi BufferLineModified guibg=NONE guifg=NONE
-      hi BufferLineModifiedSelected guibg=NONE guifg=NONE
-      hi BufferLineModifiedVisible guibg=NONE guifg=NONE
-
-      hi BufferLineIndicatorSelected guibg=NONE guifg=NONE
-      hi BufferLineIndicatorVisible guibg=NONE guifg=NONE
-
-
-      hi BufferLineSeparator guibg=NONE guifg=NONE
-      hi BufferLineSeparatorSelected guibg=NONE guifg=NONE
-      hi BufferLineSeparatorVisible guibg=NONE guifg=NONE
-      hi BufferLineOffsetSeparator guibg=NONE guifg=NONE
-      hi BufferLineGroupSeparator guibg=NONE guifg=NONE
-
-      hi BufferLineDuplicate guibg=NONE guifg=NONE
-      hi BufferLineDuplicateVisible guibg=NONE guifg=NONE
-      hi BufferLineDuplicateSelected guibg=NONE guifg=NONE
-      ]]
+    -- vim.cmd [[
+    --   hi BufferLineFill guibg=NONE guifg=NONE
+    --   hi BufferLineBackground guibg=NONE guifg=NONE
+    --
+    --   hi BufferLineTab guibg=NONE guifg=NONE
+    --   hi BufferLineTabSelected guibg=NONE guifg=NONE
+    --   hi BufferLineTabClose guibg=NONE guifg=NONE
+    --   hi BufferLineTabSeparator guibg=NONE guifg=NONE
+    --   hi BufferLineTabSelected guibg=NONE guifg=NONE
+    --
+    --   hi BufferLineNumbers guibg=NONE guifg=NONE
+    --
+    --   hi BufferLineDuplicate guibg=NONE guifg=NONE
+    --
+    --   hi BufferLineDiagnostic guibg=NONE guifg=NONE
+    --   hi BufferLineDiagnosticVisble guibg=NONE guifg=NONE
+    --   hi BufferLineDiagnosticSelected guibg=NONE guifg=NONE
+    --
+    --   hi BufferLineError guibg=NONE guifg=NONE
+    --   hi BufferLineErrorVisible guibg=NONE guifg=NONE
+    --   hi BufferLineErrorSelected guibg=NONE guifg=NONE
+    --   hi BufferLineErrorDiagnostic guibg=NONE guifg=NONE
+    --   hi BufferLineErrorDiagnosticSelected guibg=NONE guifg=NONE
+    --   hi BufferLineErrorDiagnosticVisible guibg=NONE guifg=NONE
+    --
+    --   hi BufferLineWarning guibg=NONE guifg=NONE
+    --   hi BufferLineWarningVisible guibg=NONE guifg=NONE
+    --   hi BufferLineWarningSelected guibg=NONE guifg=NONE
+    --   hi BufferLineWarningDiagnostic guibg=NONE guifg=NONE
+    --   hi BufferLineWarningDiagnosticSelected guibg=NONE guifg=NONE
+    --   hi BufferLineWarningDiagnosticVisible guibg=NONE guifg=NONE
+    --
+    --   hi BufferLineInfo guibg=NONE guifg=NONE
+    --   hi BufferLineInfoVisible guibg=NONE guifg=NONE
+    --   hi BufferLineInfoSelected guibg=NONE guifg=NONE
+    --   hi BufferLineInfoDiagnostic guibg=NONE guifg=NONE
+    --   hi BufferLineInfoDiagnosticSelected guibg=NONE guifg=NONE
+    --   hi BufferLineInfoDiagnosticVisible guibg=NONE guifg=NONE
+    --
+    --   hi BufferLineHint guibg=NONE guifg=NONE
+    --   hi BufferLineHintVisible guibg=NONE guifg=NONE
+    --   hi BufferLineHintSelected guibg=NONE guifg=NONE
+    --   hi BufferLineHintDiagnostic guibg=NONE guifg=NONE
+    --   hi BufferLineHintDiagnosticSelected guibg=NONE guifg=NONE
+    --   hi BufferLineHintDiagnosticVisible guibg=NONE guifg=NONE
+    --
+    --   hi BufferLineCloseButton guibg=NONE guifg=NONE
+    --   hi BufferLineCloseButtonVisible guibg=NONE guifg=NONE
+    --   hi BufferLineCloseButtonSelected guibg=NONE guifg=NONE
+    --
+    --   hi BufferLineBuffer guibg=NONE guifg=NONE
+    --   hi BufferLineBufferVisible guibg=NONE guifg=NONE
+    --   hi BufferLineBufferSelected guibg=NONE guifg=NONE
+    --
+    --   hi BufferLineNumbers guibg=NONE guifg=NONE
+    --   hi BufferLineNumbersVisible guibg=NONE guifg=NONE
+    --   hi BufferLineNumbersSelected guibg=NONE guifg=NONE
+    --
+    --   hi BufferLineModified guibg=NONE guifg=NONE
+    --   hi BufferLineModifiedSelected guibg=NONE guifg=NONE
+    --   hi BufferLineModifiedVisible guibg=NONE guifg=NONE
+    --
+    --   hi BufferLineIndicatorSelected guibg=NONE guifg=NONE
+    --   hi BufferLineIndicatorVisible guibg=NONE guifg=NONE
+    --
+    --
+    --   hi BufferLineSeparator guibg=NONE guifg=NONE
+    --   hi BufferLineSeparatorSelected guibg=NONE guifg=NONE
+    --   hi BufferLineSeparatorVisible guibg=NONE guifg=NONE
+    --   hi BufferLineOffsetSeparator guibg=NONE guifg=NONE
+    --   hi BufferLineGroupSeparator guibg=NONE guifg=NONE
+    --
+    --   hi BufferLineDuplicate guibg=NONE guifg=NONE
+    --   hi BufferLineDuplicateVisible guibg=NONE guifg=NONE
+    --   hi BufferLineDuplicateSelected guibg=NONE guifg=NONE
+    --   ]]
 
     return {
       fill = {
@@ -124,6 +124,7 @@ local refresh_ui = function()
       buffer_visible = {
         fg = "NONE",
         bg = "NONE",
+        bold = false,
       },
       buffer_selected = {
         fg = "NONE",
@@ -316,11 +317,11 @@ bufferline.setup {
     tab_size = 20,
     offsets = {
       { filetype = "NvimTree", text = "", padding = 1 },
-      { filetype = "Outline", text = "", padding = 1 },
+      { filetype = "Outline",  text = "", padding = 1 },
     },
-    separator_style = { "    ", "    " },
+    separator_style = { "|", "|" },
     indicator = {
-      icon = "   ",
+      icon = " ",
       style = "icon",
     },
     numbers = "ordinal",
@@ -353,7 +354,12 @@ bufferline.setup {
     end,
   },
   highlights = function()
-    return refresh_ui()
+    local refrehsed_highlights = refresh_ui()
+    local default_highlights = {}
+
+    local merged_highlights = vim.tbl_deep_extend("force", default_highlights, refrehsed_highlights)
+
+    return merged_highlights
   end,
 }
 

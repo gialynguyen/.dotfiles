@@ -105,11 +105,6 @@ vim.keymap.set("n", "<c-g>", "<cmd>NvimTreeFindFile<CR>")
 vim.keymap.set("n", "<c-l>", "<cmd>NvimTreeFocus<CR>")
 
 -- Terminal Keymap
-
-require("toggleterm").setup {
-  open_mapping = [[<C-t>]],
-}
-
 function _G.set_terminal_keymaps()
   local opts = { noremap = true }
   vim.api.nvim_buf_set_keymap(0, "t", "<C-e>", [[<C-\><C-n>]], opts)
