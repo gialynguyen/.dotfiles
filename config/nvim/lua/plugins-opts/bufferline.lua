@@ -310,6 +310,8 @@ local refresh_ui = function()
       },
     }
   end
+
+  return {}
 end
 
 bufferline.setup {

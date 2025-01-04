@@ -32,14 +32,16 @@ require("lazy").setup({
     "nvim-lua/plenary.nvim",
     lazy = false,
   },
-
   {
-    "nvim-tree/nvim-web-devicons",
+    "echasnovski/mini.icons",
+    lazy = false,
+    version = false,
     config = function()
-      require "plugins-opts.devicons"
+      require("mini.icons").setup()
+      require("mini.icons").mock_nvim_web_devicons()
     end,
-    event = "VeryLazy",
   },
+
   -- Colors
   {
     "nvimdev/dashboard-nvim",
@@ -58,7 +60,28 @@ require("lazy").setup({
   { "projekt0n/github-nvim-theme", lazy = false, priority = 1000 },
 
   { "navarasu/onedark.nvim",       lazy = false, priority = 1000 },
-
+  -- {
+  --   "0xstepit/flow.nvim",
+  --   lazy = false,
+  --   priority = 1000,
+  --   opts = {
+  --     theme = {
+  --       style = "dark",
+  --       contrast = "high", -- "default" | "high"
+  --       transparent = true,
+  --     },
+  --   },
+  -- },
+  --
+  -- {
+  --   "rebelot/kanagawa.nvim",
+  --   lazy = false,
+  --   priority = 1000,
+  --   opts = {
+  --     transparent = true,
+  --     dimInactive = true,
+  --   },
+  -- },
   {
     "oxfist/night-owl.nvim",
     lazy = false,    -- make sure we load this during startup if it is your main colorscheme
@@ -127,36 +150,30 @@ require("lazy").setup({
     event = "BufReadPost",
   },
 
-  -- {
-  --   "andymass/vim-matchup",
-  --   setup = function()
-  --     require "plugins-opts.matchup"
-  --   end,
-  --   event = "VeryLazy",
-  --   disable = false,
-  -- },
-
   {
     "machakann/vim-sandwich",
     event = "BufReadPost",
   },
 
   {
-    "smoka7/multicursors.nvim",
-    event = "VeryLazy",
-    dependencies = {
-      "nvimtools/hydra.nvim",
-    },
-    opts = {},
-    cmd = { "MCstart", "MCvisual", "MCclear", "MCpattern", "MCvisualPattern", "MCunderCursor" },
-    keys = {
-      {
-        mode = { "v", "n" },
-        "<C-n>",
-        "<cmd>MCstart<cr>",
-        desc = "Create a selection for selected text or word under the cursor",
-      },
-    },
+    "mg979/vim-visual-multi",
+    init = function()
+      vim.g.VM_theme = "purplegray"
+      vim.g.VM_mouse_mappings = 1
+      -- vim.schedule(function()
+      vim.g.VM_maps = {
+        ["I BS"] = "",
+        ["Goto Next"] = "]v",
+        ["Goto Prev"] = "[v",
+        ["I CtrlB"] = "<M-b>",
+        ["I CtrlF"] = "<M-f>",
+        ["I Return"] = "<S-CR>",
+        ["I Down Arrow"] = "",
+        ["I Up Arrow"] = "",
+      }
+      -- end)
+    end,
+    event = "BufReadPost",
   },
 
   {
@@ -220,15 +237,6 @@ require("lazy").setup({
     event = "BufReadPost",
   },
 
-  -- {
-  --   "lukas-reineke/indent-blankline.nvim",
-  --   config = function()
-  --     require "plugins-opts.indent-blankline"
-  --   end,
-  --   event = { "BufReadPost" },
-  --   main = "ibl",
-  -- },
-
   {
     "windwp/nvim-autopairs",
     config = function()
@@ -265,7 +273,7 @@ require("lazy").setup({
 
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
-      "nvim-tree/nvim-web-devicons",
+      "echasnovski/mini.icons",
     },
   },
 
@@ -284,9 +292,8 @@ require("lazy").setup({
       "stevearc/dressing.nvim",
       "nvim-lua/plenary.nvim",
       "MunifTanjim/nui.nvim",
-      --- The below dependencies are optional,
-      "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
-      "zbirenbaum/copilot.lua",      -- for providers='copilot'
+      "echasnovski/mini.icons",
+      "zbirenbaum/copilot.lua",
       {
         -- support for image pasting
         "HakonHarnes/img-clip.nvim",
@@ -315,84 +322,105 @@ require("lazy").setup({
     },
   },
 
-  -- {
-  --   "folke/trouble.nvim",
-  --   opts = {}, -- for default options, refer to the configuration section for custom setup.
-  --   cmd = "Trouble",
-  --   keys = {
-  --     {
-  --       "<leader>xx",
-  --       "<cmd>Trouble diagnostics toggle<cr>",
-  --       desc = "Diagnostics (Trouble)",
-  --     },
-  --     {
-  --       "<leader>xX",
-  --       "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
-  --       desc = "Buffer Diagnostics (Trouble)",
-  --     },
-  --     {
-  --       "<leader>cs",
-  --       "<cmd>Trouble symbols toggle focus=false<cr>",
-  --       desc = "Symbols (Trouble)",
-  --     },
-  --     {
-  --       "<leader>cl",
-  --       "<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
-  --       desc = "LSP Definitions / references / ... (Trouble)",
-  --     },
-  --     {
-  --       "<leader>xL",
-  --       "<cmd>Trouble loclist toggle<cr>",
-  --       desc = "Location List (Trouble)",
-  --     },
-  --     {
-  --       "<leader>xQ",
-  --       "<cmd>Trouble qflist toggle<cr>",
-  --       desc = "Quickfix List (Trouble)",
-  --     },
-  --   },
-  -- },
-
-
   {
-    "hrsh7th/nvim-cmp",
-    config = function()
-      require "plugins-opts.cmp"
-    end,
+    "saghen/blink.cmp",
     dependencies = {
-      "hrsh7th/cmp-nvim-lsp",
-      "hrsh7th/cmp-path",
-      "hrsh7th/cmp-buffer",
-      "hrsh7th/cmp-nvim-lsp-signature-help",
-      "lukas-reineke/cmp-under-comparator",
-      "saadparwaiz1/cmp_luasnip",
-      "L3MON4D3/LuaSnip",
       {
-        "zbirenbaum/copilot-cmp",
-        dependencies = "copilot.lua",
-        opts = {},
-        config = function(_, opts)
-          require("copilot_cmp").setup()
-        end,
+        "rafamadriz/friendly-snippets",
+      },
+      {
+        "L3MON4D3/LuaSnip",
+        version = "v2.*",
+      },
+      {
+        "giuxtaposition/blink-cmp-copilot",
       },
     },
-    event = "InsertEnter",
-  },
 
-  {
-    "rafamadriz/friendly-snippets",
-    config = function()
-      require "plugins-opts.snippets"
-    end,
-    dependencies = {
-      "saadparwaiz1/cmp_luasnip",
+    opts = {
+      keymap = {
+        preset = "enter",
+        ["<C-space>"] = {},
+        ["<C-e>"] = {},
+        ["<C-c>"] = { "hide", "fallback" },
+        ["<C-s>"] = { "show", "show_documentation", "hide_documentation" },
+        ["<Tab>"] = {
+          function(cmp)
+            if cmp.snippet_active() then
+              return cmp.accept()
+            else
+              return cmp.select_and_accept()
+            end
+          end,
+          "snippet_forward",
+          "fallback",
+        },
+
+        ["<S-Tab>"] = { "snippet_backward", "fallback" },
+      },
+
+      appearance = {
+        use_nvim_cmp_as_default = true,
+        nerd_font_variant = "mono",
+      },
+
+      completion = {
+        ghost_text = {
+          enabled = true,
+        },
+        list = {
+          selection = function(ctx)
+            return ctx.mode == "cmdline" and "auto_insert" or "preselect"
+          end,
+        },
+        menu = {
+          border = "single",
+          draw = {
+            components = {
+              kind_icon = {
+                ellipsis = false,
+                text = function(ctx)
+                  if ctx.kind == "Copilot" then
+                    return ""
+                  end
+                  local kind_icon, _, _ = require("mini.icons").get("lsp", ctx.kind)
+                  return kind_icon
+                end,
+                highlight = function(ctx)
+                  local _, hl, _ = require("mini.icons").get("lsp", ctx.kind)
+                  return hl
+                end,
+              },
+            },
+          },
+        },
+        documentation = { window = { border = "single" } },
+      },
+
+      signature = { enabled = true, window = { border = "single" } },
+
+      sources = {
+        default = { "lsp", "snippets", "path", "buffer", "copilot" },
+        providers = {
+          copilot = {
+            name = "copilot",
+            module = "blink-cmp-copilot",
+            score_offset = 100,
+            async = true,
+            transform_items = function(_, items)
+              local CompletionItemKind = require("blink.cmp.types").CompletionItemKind
+              local kind_idx = #CompletionItemKind + 1
+              CompletionItemKind[kind_idx] = "Copilot"
+              for _, item in ipairs(items) do
+                item.kind = kind_idx
+              end
+              return items
+            end,
+          },
+        },
+      },
     },
-  },
-
-  {
-    "L3MON4D3/LuaSnip",
-    version = "v2.*",
-    dependencies = { "saadparwaiz1/cmp_luasnip", "rafamadriz/friendly-snippets" },
+    opts_extend = { "sources.default" },
   },
 
   {
@@ -400,7 +428,7 @@ require("lazy").setup({
     config = function()
       require "plugins-opts.nvim-tree"
     end,
-    lazy = false
+    lazy = false,
   },
 
   {
@@ -418,20 +446,6 @@ require("lazy").setup({
     },
     lazy = false,
   },
-  --
-  -- {
-  --   "pmizio/typescript-tools.nvim",
-  --   dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
-  --   config = function()
-  --     require("typescript-tools").setup {
-  --       settings = {
-  --         expose_as_code_action = "all",
-  --       },
-  --     }
-  --   end,
-  --   opts = {},
-  --   lazy = false,
-  -- },
 
   {
     "williamboman/mason.nvim",
@@ -473,17 +487,6 @@ require("lazy").setup({
       }
     end,
   },
-  -- {
-  --   "nvimdev/lspsaga.nvim",
-  --   config = function()
-  --     require "plugins-opts.saga"
-  --   end,
-  --   dependencies = {
-  --     "nvim-treesitter/nvim-treesitter",
-  --     "nvim-tree/nvim-web-devicons",
-  --   },
-  --   event = "VeryLazy",
-  -- },
 
   {
     "lewis6991/gitsigns.nvim",
@@ -495,7 +498,7 @@ require("lazy").setup({
     },
   },
 
-  { 'akinsho/git-conflict.nvim',        version = "*", config = true,  lazy = false },
+  { "akinsho/git-conflict.nvim",        version = "*", config = true,  lazy = false },
 
   {
     "tpope/vim-fugitive",
@@ -539,6 +542,7 @@ require("lazy").setup({
       require "plugins-opts.transparent"
     end,
     lazy = false,
+    enabled = false,
   },
 
   {
@@ -557,36 +561,6 @@ require("lazy").setup({
     cmd = "ZenMode",
   },
 
-  -- {
-  --   "ray-x/sad.nvim",
-  --   config = function()
-  --     require "plugins-opts.sad"
-  --   end,
-  --   enabled = false,
-  --   dependencies = {
-  --     "ray-x/guihua.lua",
-  --   },
-  --   event = "VeryLazy",
-  -- },
-  --
-  -- {
-  --   "iamcco/markdown-preview.nvim",
-  --   run = function()
-  --     vim.fn["mkdp#util#install"]()
-  --   end,
-  --   enabled = false,
-  --   setup = function()
-  --     vim.g.mkdp_theme = "dark"
-  --   end,
-  --   event = "VeryLazy",
-  -- },
-  -- {
-  --   "leath-dub/snipe.nvim",
-  --   keys = {
-  --     { "gb", function() require("snipe").open_buffer_menu() end, desc = "Open Snipe buffer menu" }
-  --   },
-  --   opts = {}
-  -- },
   {
     "johann2357/nvim-smartbufs",
     event = "BufReadPost",
@@ -617,14 +591,6 @@ require("lazy").setup({
     event = "VeryLazy",
   },
 
-  -- {
-  --   "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
-  --   config = function()
-  --     require "plugins-opts.lsp_lines"
-  --   end,
-  --   event = "VeryLazy",
-  -- },
-
   {
     "kevinhwang91/nvim-ufo",
     config = function()
@@ -633,7 +599,6 @@ require("lazy").setup({
     dependencies = {
       "kevinhwang91/promise-async",
     },
-    -- enabled = false,
     event = "VeryLazy",
   },
 }, lazy_opts)
