@@ -32,13 +32,19 @@ require("lazy").setup({
     "nvim-lua/plenary.nvim",
     lazy = false,
   },
+
   {
     "echasnovski/mini.icons",
-    lazy = false,
-    version = false,
-    config = function()
-      require("mini.icons").setup()
-      require("mini.icons").mock_nvim_web_devicons()
+    opts = {},
+    lazy = true,
+    specs = {
+      { "nvim-tree/nvim-web-devicons", enabled = false, optional = true },
+    },
+    init = function()
+      package.preload["nvim-web-devicons"] = function()
+        require("mini.icons").mock_nvim_web_devicons()
+        return package.loaded["nvim-web-devicons"]
+      end
     end,
   },
 
