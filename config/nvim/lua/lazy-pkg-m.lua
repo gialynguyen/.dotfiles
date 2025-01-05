@@ -330,6 +330,7 @@ require("lazy").setup({
 
   {
     "saghen/blink.cmp",
+    version = '*',
     dependencies = {
       {
         "rafamadriz/friendly-snippets",
