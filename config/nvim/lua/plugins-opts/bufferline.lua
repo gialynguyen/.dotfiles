@@ -354,6 +354,9 @@ bufferline.setup {
       local result_string = table.concat(result, " ")
       return #result > 0 and result_string or ""
     end,
+    get_element_icon = function(opts)
+      return require('mini.icons').get('filetype', opts.filetype)
+    end
   },
   highlights = function()
     local refrehsed_highlights = refresh_ui()

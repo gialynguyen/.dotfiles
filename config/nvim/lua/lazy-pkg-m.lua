@@ -63,9 +63,31 @@ require("lazy").setup({
     priority = 1000,
   },
 
-  { "projekt0n/github-nvim-theme", lazy = false, priority = 1000 },
+  {
+    "projekt0n/github-nvim-theme",
+    lazy = false,
+    priority = 1000
+  },
 
-  { "navarasu/onedark.nvim",       lazy = false, priority = 1000 },
+  {
+    "navarasu/onedark.nvim",
+    lazy = false,
+    priority = 1000
+  },
+
+  {
+    "rose-pine/neovim",
+    lazy = false,
+    priority = 1000,
+    name = "rose-pine"
+  },
+
+  {
+    "folke/tokyonight.nvim",
+    lazy = false,
+    priority = 1000,
+  },
+
   -- {
   --   "0xstepit/flow.nvim",
   --   lazy = false,
@@ -88,39 +110,34 @@ require("lazy").setup({
   --     dimInactive = true,
   --   },
   -- },
-  {
-    "oxfist/night-owl.nvim",
-    lazy = false,    -- make sure we load this during startup if it is your main colorscheme
-    priority = 1000, -- make sure to load this before all the other start plugins
-  },
-
-  { "nyoom-engineering/oxocarbon.nvim", lazy = false,  priority = 1000 },
-
-  {
-    "folke/tokyonight.nvim",
-    lazy = false,
-    priority = 1000,
-  },
-
-  {
-    "baliestri/aura-theme",
-    lazy = false,
-    priority = 1000,
-    config = function(plugin)
-      vim.opt.rtp:append(plugin.dir .. "/packages/neovim")
-    end,
-  },
-
-  {
-    "AlexvZyl/nordic.nvim",
-    lazy = false,
-    priority = 1000,
-    config = function()
-      require("nordic").setup {
-        -- transparent_bg = true,
-      }
-    end,
-  },
+  -- {
+  --   "oxfist/night-owl.nvim",
+  --   lazy = false,    -- make sure we load this during startup if it is your main colorscheme
+  --   priority = 1000, -- make sure to load this before all the other start plugins
+  -- },
+  --
+  -- { "nyoom-engineering/oxocarbon.nvim", lazy = false,  priority = 1000 },
+  --
+  --
+  -- {
+  --   "baliestri/aura-theme",
+  --   lazy = false,
+  --   priority = 1000,
+  --   config = function(plugin)
+  --     vim.opt.rtp:append(plugin.dir .. "/packages/neovim")
+  --   end,
+  -- },
+  --
+  -- {
+  --   "AlexvZyl/nordic.nvim",
+  --   lazy = false,
+  --   priority = 1000,
+  --   config = function()
+  --     require("nordic").setup {
+  --       -- transparent_bg = true,
+  --     }
+  --   end,
+  -- },
 
   {
     "nvim-treesitter/nvim-treesitter",
@@ -426,7 +443,7 @@ require("lazy").setup({
     },
   },
 
-  { "akinsho/git-conflict.nvim",        version = "*", config = true,  lazy = false },
+  { "akinsho/git-conflict.nvim", version = "*", config = true, lazy = false },
 
   {
     "tpope/vim-fugitive",
@@ -460,6 +477,7 @@ require("lazy").setup({
     end,
     dependencies = {
       "famiu/bufdelete.nvim",
+      "echasnovski/mini.icons"
     },
     event = { "BufReadPost" },
   },
