@@ -147,7 +147,8 @@ require("lazy").setup({
     dependencies = {
       "nvim-treesitter/nvim-treesitter-textobjects",
     },
-    event = "VeryLazy",
+    lazy = vim.fn.argc(-1) == 0,
+    event = { "VeryLazy" },
     build = ":TSUpdate",
   },
 
@@ -302,7 +303,10 @@ require("lazy").setup({
 
   {
     "yetone/avante.nvim",
-    event = "BufReadPost",
+    keys = {
+      { "<leader>aa", "<cmd>AvanteToggle<cr>" },
+      { "<leader>ae", "<cmd>AvanteEdit<cr>" },
+    },
     version = false, -- set this if you want to always pull the latest change
     opts = {
       provider = "copilot",
