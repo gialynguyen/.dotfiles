@@ -66,20 +66,20 @@ require("lazy").setup({
   {
     "projekt0n/github-nvim-theme",
     lazy = false,
-    priority = 1000
+    priority = 1000,
   },
 
   {
     "navarasu/onedark.nvim",
     lazy = false,
-    priority = 1000
+    priority = 1000,
   },
 
   {
     "rose-pine/neovim",
     lazy = false,
     priority = 1000,
-    name = "rose-pine"
+    name = "rose-pine",
   },
 
   {
@@ -148,7 +148,7 @@ require("lazy").setup({
       "nvim-treesitter/nvim-treesitter-textobjects",
     },
     lazy = vim.fn.argc(-1) == 0,
-    event = { "VeryLazy" },
+    event = { "VeryLazy", "BufReadPost", "BufWritePost", "BufNewFile" },
     build = ":TSUpdate",
   },
 
@@ -351,7 +351,7 @@ require("lazy").setup({
 
   {
     "saghen/blink.cmp",
-    version = '*',
+    version = "*",
     dependencies = {
       {
         "rafamadriz/friendly-snippets",
@@ -385,15 +385,12 @@ require("lazy").setup({
     event = { "BufReadPost", "BufNewFile" },
     dependencies = {
       "onsails/lspkind-nvim",
+      "yioneko/nvim-vtsls",
     },
   },
 
   {
     "yioneko/nvim-vtsls",
-    dependencies = {
-      "neovim/nvim-lspconfig",
-    },
-    lazy = false,
   },
 
   {
@@ -481,7 +478,7 @@ require("lazy").setup({
     end,
     dependencies = {
       "famiu/bufdelete.nvim",
-      "echasnovski/mini.icons"
+      "echasnovski/mini.icons",
     },
     event = { "BufReadPost" },
   },

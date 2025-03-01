@@ -13,15 +13,6 @@ vim.keymap.set("n", ",rg", ":lua require('telescope').extensions.live_grep_args.
 vim.keymap.set("n", ",rr", builtin.resume)
 vim.keymap.set("n", ",re", ":lua require('telescope.builtin').oldfiles({ only_cwd = true })<CR>")
 
---- Git Keymap
-
-vim.keymap.set("n", "]c", "<cmd>Gitsigns next_hunk<CR>")
-vim.keymap.set("n", "[c", "<cmd>Gitsigns prev_hunk<CR>")
-vim.keymap.set("n", "<leader>gd", "<cmd>DiffviewOpen<CR>")
-vim.keymap.set("n", "<leader>go", "<cmd>DiffviewOpen<CR>")
-vim.keymap.set("n", "<leader>gh", "<cmd>DiffviewFileHistory %<CR>")
-vim.keymap.set("n", "<leader>gH", "<cmd>DiffviewFileHistory<CR>")
-
 local virtual_text = false
 --- LSP keymap
 vim.api.nvim_create_autocmd("LspAttach", {

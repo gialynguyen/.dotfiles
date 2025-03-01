@@ -119,6 +119,7 @@ end
 require("nvim-tree").setup {
   sync_root_with_cwd = true,
   view = {
+    -- side = "right",
     adaptive_size = true,
     preserve_window_proportions = true,
     width = {
@@ -126,6 +127,7 @@ require("nvim-tree").setup {
     },
     float = {
       enable = true,
+      -- enable = true,
       quit_on_focus_loss = true,
       open_win_config = function()
         local width_ratio = 0.5
@@ -162,7 +164,7 @@ require("nvim-tree").setup {
     timeout = 400,
   },
   update_focused_file = {
-    enable = true,
+    enable = false,
   },
   actions = {
     open_file = {
@@ -190,7 +192,7 @@ api.events.subscribe(api.events.Event.NodeRenamed, function(data)
     return
   end
   local type = ({ file = "file", directory = "folder" })[stat.type]
-  local clients = vim.lsp.get_clients({})
+  local clients = vim.lsp.get_clients {}
   for _, client in ipairs(clients) do
     if check_folders_contains(client.workspace_folders, data.old_name) then
       local filters = vim.tbl_get(client.server_capabilities, "workspace", "fileOperations", "didRename", "filters")

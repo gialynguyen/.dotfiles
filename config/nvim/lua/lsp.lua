@@ -25,7 +25,7 @@ require("mason-lspconfig").setup_handlers {
   function(server_name)
     local lspconfig = require "lspconfig"
 
-    local capabilities = require('blink.cmp').get_lsp_capabilities()
+    local capabilities = require("blink.cmp").get_lsp_capabilities()
 
     capabilities.textDocument.completion.completionItem.snippetSupport = true
     capabilities.textDocument.foldingRange = {
@@ -136,28 +136,7 @@ require("mason-lspconfig").setup_handlers {
       autostart = true,
       capabilities = capabilities,
     }
-    --
-    -- if server_name == "tsserver" then
-    --   require("typescript").setup {
-    --     disable_commands = false,
-    --     debug = false,
-    --     go_to_source_definition = {
-    --       fallback = true,
-    --     },
-    --     server = {
-    --       on_attach = function(client, bufnr)
-    --         vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
-    --       end,
-    --       autostart = true,
-    --       capabilities = capabilities,
-    --       root_dir = function(fname)
-    --         return lspconfig.util.root_pattern ".git"(fname)
-    --       end,
-    --     },
-    --   }
-    --   return
-    -- end
-    --
+
     local opts = vim.tbl_deep_extend("force", default_opts, setup_server[server_name] or {})
 
     lspconfig[server_name].setup(opts)
@@ -169,10 +148,10 @@ vim.diagnostic.config {
   virtual_text = false,
   signs = {
     text = {
-      [vim.diagnostic.severity.ERROR] = '',
-      [vim.diagnostic.severity.WARN] = '',
-      [vim.diagnostic.severity.INFO] = '',
-      [vim.diagnostic.severity.HINT] = '󰌵',
+      [vim.diagnostic.severity.ERROR] = "",
+      [vim.diagnostic.severity.WARN] = "",
+      [vim.diagnostic.severity.INFO] = "",
+      [vim.diagnostic.severity.HINT] = "󰌵",
     },
   },
   virtual_lines = true,
@@ -182,5 +161,12 @@ vim.diagnostic.config {
     border = "rounded",
     focusable = false,
   },
-  severity_sort = true
+  severity_sort = true,
 }
+
+vim.notify = function(msg, log_level, _)
+  if log_level == vim.log.levels.ERROR and msg:match "textDocument/diagnostic failed" then
+    return
+  end
+  print(msg)
+end

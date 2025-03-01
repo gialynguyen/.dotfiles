@@ -1,9 +1,3 @@
-local function is_js_ts_jsx_tsx_file(bufnr)
-  local bufname = vim.api.nvim_buf_get_name(bufnr)
-  local extension = bufname:match "^.+(%..+)$"
-  return extension == ".js" or extension == ".ts" or extension == ".jsx" or extension == ".tsx"
-end
-
 local async_formatting = function(bufnr)
   bufnr = bufnr or vim.api.nvim_get_current_buf()
 
@@ -46,39 +40,15 @@ local none_ls = require "null-ls"
 local cspell = require "cspell"
 
 local augroup = vim.api.nvim_create_augroup("LspFormatting", { clear = true })
-local cspell_config = {
-  diagnostics_postprocess = function(diagnostic)
-    diagnostic.severity = vim.diagnostic.severity["INFO"] -- ERROR, WARN, INFO, HINT
-  end,
-  config = {
-    find_json = function(_)
-      return vim.fn.expand "~/.config/cspell.json"
-    end,
-  },
-}
+
 none_ls.setup {
   sources = {
-    require("none-ls.code_actions.eslint"),
-
+    -- Formatting
     none_ls.builtins.formatting.gofmt,
     none_ls.builtins.formatting.prettier.with {
       extra_filetypes = { "svelte" },
     },
-
     none_ls.builtins.formatting.stylua,
-    none_ls.builtins.code_actions.gitsigns,
-    none_ls.builtins.diagnostics.stylelint.with {
-      condition = function(utils)
-        return utils.root_has_file {
-          "stylelint.config.js",
-          ".stylelintrc.js",
-          ".stylelintrc",
-          ".stylelintrc.json",
-          ".stylelintrc.yml",
-          ".stylelintrc.yaml",
-        }
-      end,
-    },
     none_ls.builtins.formatting.stylelint.with {
       condition = function(utils)
         return utils.root_has_file {
@@ -91,6 +61,8 @@ none_ls.setup {
         }
       end,
     },
+
+    -- Diagnostics
     cspell.diagnostics.with {
       filetypes = {
         "html",
@@ -108,6 +80,22 @@ none_ls.setup {
         diagnostic.severity = vim.diagnostic.severity.HINT
       end,
     },
+    none_ls.builtins.diagnostics.stylelint.with {
+      condition = function(utils)
+        return utils.root_has_file {
+          "stylelint.config.js",
+          ".stylelintrc.js",
+          ".stylelintrc",
+          ".stylelintrc.json",
+          ".stylelintrc.yml",
+          ".stylelintrc.yaml",
+        }
+      end,
+    },
+
+    -- Code actions
+    require "none-ls.code_actions.eslint",
+    none_ls.builtins.code_actions.gitsigns,
     cspell.code_actions.with {
       filetypes = {
         "html",
