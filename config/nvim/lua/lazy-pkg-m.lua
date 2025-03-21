@@ -88,6 +88,13 @@ require("lazy").setup({
     priority = 1000,
   },
 
+  {
+    "catppuccin/nvim",
+    lazy = false,
+    name = "catppuccin",
+    priority = 1000
+  },
+
   -- {
   --   "0xstepit/flow.nvim",
   --   lazy = false,
@@ -167,10 +174,14 @@ require("lazy").setup({
   },
 
   {
-    "phaazon/hop.nvim",
+    "smoka7/hop.nvim",
     config = function()
       require "plugins-opts.hop"
     end,
+    version = "*",
+    opts = {
+      keys = 'etovxqpdygfblzhckisuran'
+    },
     event = "BufReadPost",
   },
 
