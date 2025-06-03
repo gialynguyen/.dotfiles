@@ -150,11 +150,11 @@ cmp.setup {
     fetching_timeout = 500,
   },
   sources = cmp.config.sources {
-    { name = "nvim_lsp",               group_index = 1 },
-    { name = "copilot",                group_index = 2 },
-    { name = "luasnip",                group_index = 2, max_item_count = 4 },
-    { name = "buffer",                 group_index = 2 },
-    { name = "path",                   group_index = 2 },
+    { name = "nvim_lsp", group_index = 1 },
+    { name = "copilot", group_index = 2 },
+    { name = "luasnip", group_index = 2, max_item_count = 4 },
+    { name = "buffer", group_index = 2 },
+    { name = "path", group_index = 2 },
     { name = "nvim_lsp_signature_help" },
   },
 }

@@ -48,7 +48,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
       vim.diagnostic.config {
         virtual_text = virtual_text,
-
+        virtual_lines = virtual_text,
       }
     end, { silent = true, noremap = true })
 
@@ -69,6 +69,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
       callback = function()
         vim.diagnostic.config({
           virtual_text = virtual_text,
+          virtual_lines = virtual_text,
         })
       end
     })

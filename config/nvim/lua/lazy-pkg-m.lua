@@ -92,7 +92,7 @@ require("lazy").setup({
     "catppuccin/nvim",
     lazy = false,
     name = "catppuccin",
-    priority = 1000
+    priority = 1000,
   },
 
   -- {
@@ -164,8 +164,8 @@ require("lazy").setup({
     config = function()
       require("nvim-ts-autotag").setup {
         opts = {
-          enable_close = true,           -- Auto close tags
-          enable_rename = true,          -- Auto rename pairs of tags
+          enable_close = true, -- Auto close tags
+          enable_rename = true, -- Auto rename pairs of tags
           enable_close_on_slash = false, -- Auto close on trailing </
         },
       }
@@ -180,9 +180,9 @@ require("lazy").setup({
     end,
     version = "*",
     opts = {
-      keys = 'etovxqpdygfblzhckisuran'
+      keys = "etovxqpdygfblzhckisuran",
     },
-    event = "BufReadPost",
+    -- event = "BufReadPost",
   },
 
   {
@@ -289,18 +289,38 @@ require("lazy").setup({
   },
 
   {
-    "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
-    build = ":Copilot auth",
-    opts = {
-      suggestion = { enabled = false },
-      panel = { enabled = false },
-      filetypes = {
-        markdown = true,
-        help = true,
-      },
-    },
+    "copilotlsp-nvim/copilot-lsp",
+    lazy = false,
+    init = function()
+      vim.g.copilot_nes_debounce = 500
+      vim.lsp.enable "copilot_ls"
+      vim.keymap.set("n", "<tab>", function()
+        -- Try to jump to the start of the suggestion edit.
+        -- If already at the start, then apply the pending suggestion and jump to the end of the edit.
+        local _ = require("copilot-lsp.nes").walk_cursor_start_edit()
+          or (require("copilot-lsp.nes").apply_pending_nes() and require("copilot-lsp.nes").walk_cursor_end_edit())
+      end)
+      vim.keymap.set("n", "<esc>", function()
+        if not require("copilot-lsp.nes").clear() then
+          -- fallback to other functionality
+        end
+      end, { desc = "Clear Copilot suggestion or fallback" })
+    end,
   },
+
+  -- {
+  --   "zbirenbaum/copilot.lua",
+  --   cmd = "Copilot",
+  --   build = ":Copilot auth",
+  --   opts = {
+  --     suggestion = { enabled = false },
+  --     panel = { enabled = false },
+  --     filetypes = {
+  --       markdown = true,
+  --       help = true,
+  --     },
+  --   },
+  -- },
 
   {
     "OXY2DEV/markview.nvim",
@@ -418,7 +438,7 @@ require("lazy").setup({
   {
     "mrcjkb/rustaceanvim",
     version = "^5", -- Recommended
-    lazy = false,   -- This plugin is already lazy
+    lazy = false, -- This plugin is already lazy
     init = function()
       vim.g.rustaceanvim = {
         -- Plugin configuration

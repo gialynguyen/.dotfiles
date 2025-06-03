@@ -7,13 +7,19 @@ require("blink.cmp").setup {
     ["<C-s>"] = { "show", "show_documentation", "hide_documentation" },
     ["<Tab>"] = {
       function(cmp)
+        if vim.b[vim.api.nvim_get_current_buf()].nes_state then
+          cmp.hide()
+          return (
+            require("copilot-lsp.nes").apply_pending_nes()
+            and require("copilot-lsp.nes").walk_cursor_end_edit()
+          )
+        end
         if cmp.snippet_active() then
           return cmp.accept()
         else
           return cmp.select_and_accept()
         end
-      end,
-      "snippet_forward",
+      end, "snippet_forward",
       "fallback",
     },
 
@@ -61,6 +67,11 @@ require("blink.cmp").setup {
       },
     },
     documentation = { window = { border = "single" } },
+    trigger = {
+      prefetch_on_insert = false,
+      show_in_snippet = false,
+      show_on_keyword = false
+    }
   },
 
   signature = { enabled = true, window = { border = "single" } },
