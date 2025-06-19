@@ -308,19 +308,20 @@ require("lazy").setup({
     end,
   },
 
-  -- {
-  --   "zbirenbaum/copilot.lua",
-  --   cmd = "Copilot",
-  --   build = ":Copilot auth",
-  --   opts = {
-  --     suggestion = { enabled = false },
-  --     panel = { enabled = false },
-  --     filetypes = {
-  --       markdown = true,
-  --       help = true,
-  --     },
-  --   },
-  -- },
+  {
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    build = ":Copilot auth",
+    opts = {
+      suggestion = { enabled = false },
+      panel = { enabled = false },
+      filetypes = {
+        markdown = true,
+        help = true,
+      },
+      copilot_model = "claude-sonnet-4",
+    },
+  },
 
   {
     "OXY2DEV/markview.nvim",
@@ -341,6 +342,11 @@ require("lazy").setup({
     version = false, -- set this if you want to always pull the latest change
     opts = {
       provider = "copilot",
+      providers = {
+        copilot = {
+          model = "claude-sonnet-4",
+        },
+      },
     },
     -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
     build = "make",

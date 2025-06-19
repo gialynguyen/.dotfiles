@@ -37,6 +37,7 @@ default-root-container-orientation = 'auto'
 # Possible values: (qwerty|dvorak)
 # See https://nikitabobko.github.io/AeroSpace/guide#key-mapping
 key-mapping.preset = 'qwerty'
+exec-on-workspace-change = ['/Users/gialynguyen/.config/aerospace/on-ws-change.sh']
 
 # [workspace-to-monitor-force-assignment]
 # 1 = 2
@@ -116,6 +117,7 @@ alt-2 = 'workspace Research'
 alt-3 = 'workspace Media'
 alt-a = 'workspace Chat'
 alt-s = 'workspace Preview'
+alt-d = 'workspace DevTools'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
 alt-shift-1 = ['move-node-to-workspace Code', 'workspace Code']
@@ -123,6 +125,7 @@ alt-shift-2 = ['move-node-to-workspace Research', 'workspace Research']
 alt-shift-3 = ['move-node-to-workspace Media', 'workspace Media']
 alt-shift-a = ['move-node-to-workspace Chat', 'workspace Chat']
 alt-shift-s = ['move-node-to-workspace Preview', 'workspace Preview']
+alt-shift-d = ['move-node-to-workspace DevTools', 'workspace DevTools']
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#workspace-back-and-forth
 # alt-tab = 'workspace-back-and-forth'
@@ -140,7 +143,7 @@ r = ['flatten-workspace-tree', 'mode main'] # reset layout
 #s = ['layout sticky tiling', 'mode main'] # sticky is not yet supported https://github.com/nikitabobko/AeroSpace/issues/2
 f = ['layout floating tiling', 'mode main'] # Toggle between floating and tiling layout
 backspace = ['close-all-windows-but-current', 'mode main']
-m = 'macos-native-fullscreen'
+m = ['fullscreen', 'mode main']
 
 alt-shift-h = ['join-with left', 'mode main']
 alt-shift-j = ['join-with down', 'mode main']
@@ -153,3 +156,35 @@ run = [
   "layout floating",
   "move-node-to-workspace Code",
 ]
+
+[[on-window-detected]]
+if.app-id = "dev.zed.Zed-Preview"
+run = [
+  "move-node-to-workspace Code",
+]
+
+[[on-window-detected]]
+if.app-id = "com.microsoft.VSCode"
+run = [
+  "move-node-to-workspace Code",
+]
+
+[[on-window-detected]]
+if.app-id = "com.exafunction.windsurf"
+run = [
+  "move-node-to-workspace Code",
+]
+
+[[on-window-detected]]
+if.app-id = "com.trae.app"
+run = [
+  "move-node-to-workspace Code",
+]
+
+[[on-window-detected]]
+if.app-id = "net.kovidgoyal.kitty"
+run = [
+  "move-node-to-workspace Code",
+]
+
+
