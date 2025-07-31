@@ -95,6 +95,12 @@ require("lazy").setup({
     priority = 1000,
   },
 
+  {
+    "EdenEast/nightfox.nvim",
+    lazy = false,
+    priority = 1000,
+  },
+
   -- {
   --   "0xstepit/flow.nvim",
   --   lazy = false,
@@ -288,25 +294,25 @@ require("lazy").setup({
     event = "VeryLazy",
   },
 
-  {
-    "copilotlsp-nvim/copilot-lsp",
-    lazy = false,
-    init = function()
-      vim.g.copilot_nes_debounce = 500
-      vim.lsp.enable "copilot_ls"
-      vim.keymap.set("n", "<tab>", function()
-        -- Try to jump to the start of the suggestion edit.
-        -- If already at the start, then apply the pending suggestion and jump to the end of the edit.
-        local _ = require("copilot-lsp.nes").walk_cursor_start_edit()
-          or (require("copilot-lsp.nes").apply_pending_nes() and require("copilot-lsp.nes").walk_cursor_end_edit())
-      end)
-      vim.keymap.set("n", "<esc>", function()
-        if not require("copilot-lsp.nes").clear() then
-          -- fallback to other functionality
-        end
-      end, { desc = "Clear Copilot suggestion or fallback" })
-    end,
-  },
+  -- {
+  --   "copilotlsp-nvim/copilot-lsp",
+  --   lazy = false,
+  --   init = function()
+  --     vim.g.copilot_nes_debounce = 500
+  --     vim.lsp.enable "copilot_ls"
+  --     vim.keymap.set("n", "<tab>", function()
+  --       -- Try to jump to the start of the suggestion edit.
+  --       -- If already at the start, then apply the pending suggestion and jump to the end of the edit.
+  --       local _ = require("copilot-lsp.nes").walk_cursor_start_edit()
+  --         or (require("copilot-lsp.nes").apply_pending_nes() and require("copilot-lsp.nes").walk_cursor_end_edit())
+  --     end)
+  --     vim.keymap.set("n", "<esc>", function()
+  --       if not require("copilot-lsp.nes").clear() then
+  --         -- fallback to other functionality
+  --       end
+  --     end, { desc = "Clear Copilot suggestion or fallback" })
+  --   end,
+  -- },
 
   {
     "zbirenbaum/copilot.lua",
@@ -324,6 +330,23 @@ require("lazy").setup({
   },
 
   {
+    "greggh/claude-code.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim", -- Required for git operations
+    },
+    config = function()
+      require("claude-code").setup {
+        window = {
+          position = "float",
+        },
+      }
+    end,
+    event = {
+      "VeryLazy",
+    },
+  },
+
+  {
     "OXY2DEV/markview.nvim",
     ft = "markdown",
 
@@ -333,58 +356,58 @@ require("lazy").setup({
     },
   },
 
-  {
-    "yetone/avante.nvim",
-    keys = {
-      { "<leader>aa", "<cmd>AvanteToggle<cr>" },
-      { "<leader>ae", "<cmd>AvanteEdit<cr>" },
-    },
-    version = false, -- set this if you want to always pull the latest change
-    opts = {
-      provider = "copilot",
-      providers = {
-        copilot = {
-          model = "claude-sonnet-4",
-        },
-      },
-    },
-    -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
-    build = "make",
-    -- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
-    dependencies = {
-      "nvim-treesitter/nvim-treesitter",
-      "stevearc/dressing.nvim",
-      "nvim-lua/plenary.nvim",
-      "MunifTanjim/nui.nvim",
-      "echasnovski/mini.icons",
-      "zbirenbaum/copilot.lua",
-      {
-        -- support for image pasting
-        "HakonHarnes/img-clip.nvim",
-        event = "VeryLazy",
-        opts = {
-          -- recommended settings
-          default = {
-            embed_image_as_base64 = false,
-            prompt_for_file_name = false,
-            drag_and_drop = {
-              insert_mode = true,
-            },
-            -- required for Windows users
-            use_absolute_path = true,
-          },
-        },
-      },
-      {
-        -- Make sure to set this up properly if you have lazy=true
-        "MeanderingProgrammer/render-markdown.nvim",
-        opts = {
-          file_types = { "markdown", "Avante" },
-        },
-        ft = { "markdown", "Avante" },
-      },
-    },
-  },
+  -- {
+  --   "yetone/avante.nvim",
+  --   keys = {
+  --     { "<leader>aa", "<cmd>AvanteToggle<cr>" },
+  --     { "<leader>ae", "<cmd>AvanteEdit<cr>" },
+  --   },
+  --   version = false, -- set this if you want to always pull the latest change
+  --   opts = {
+  --     provider = "copilot",
+  --     providers = {
+  --       copilot = {
+  --         model = "claude-sonnet-4",
+  --       },
+  --     },
+  --   },
+  --   -- if you want to build from source then do `make BUILD_FROM_SOURCE=true`
+  --   build = "make",
+  --   -- build = "powershell -ExecutionPolicy Bypass -File Build.ps1 -BuildFromSource false" -- for windows
+  --   dependencies = {
+  --     "nvim-treesitter/nvim-treesitter",
+  --     "stevearc/dressing.nvim",
+  --     "nvim-lua/plenary.nvim",
+  --     "MunifTanjim/nui.nvim",
+  --     "echasnovski/mini.icons",
+  --     "zbirenbaum/copilot.lua",
+  --     {
+  --       -- support for image pasting
+  --       "HakonHarnes/img-clip.nvim",
+  --       event = "VeryLazy",
+  --       opts = {
+  --         -- recommended settings
+  --         default = {
+  --           embed_image_as_base64 = false,
+  --           prompt_for_file_name = false,
+  --           drag_and_drop = {
+  --             insert_mode = true,
+  --           },
+  --           -- required for Windows users
+  --           use_absolute_path = true,
+  --         },
+  --       },
+  --     },
+  --     {
+  --       -- Make sure to set this up properly if you have lazy=true
+  --       "MeanderingProgrammer/render-markdown.nvim",
+  --       opts = {
+  --         file_types = { "markdown", "Avante" },
+  --       },
+  --       ft = { "markdown", "Avante" },
+  --     },
+  --   },
+  -- },
 
   {
     "saghen/blink.cmp",

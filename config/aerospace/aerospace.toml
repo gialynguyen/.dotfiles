@@ -157,34 +157,34 @@ run = [
   "move-node-to-workspace Code",
 ]
 
-[[on-window-detected]]
-if.app-id = "dev.zed.Zed-Preview"
-run = [
-  "move-node-to-workspace Code",
-]
-
-[[on-window-detected]]
-if.app-id = "com.microsoft.VSCode"
-run = [
-  "move-node-to-workspace Code",
-]
-
-[[on-window-detected]]
-if.app-id = "com.exafunction.windsurf"
-run = [
-  "move-node-to-workspace Code",
-]
-
-[[on-window-detected]]
-if.app-id = "com.trae.app"
-run = [
-  "move-node-to-workspace Code",
-]
-
-[[on-window-detected]]
-if.app-id = "net.kovidgoyal.kitty"
-run = [
-  "move-node-to-workspace Code",
-]
-
+# [[on-window-detected]]
+# if.app-id = "dev.zed.Zed-Preview"
+# run = [
+#   "move-node-to-workspace Code",
+# ]
+#
+# [[on-window-detected]]
+# if.app-id = "com.microsoft.VSCode"
+# run = [
+#   "move-node-to-workspace Code",
+# ]
+#
+# [[on-window-detected]]
+# if.app-id = "com.exafunction.windsurf"
+# run = [
+#   "move-node-to-workspace Code",
+# ]
+#
+# [[on-window-detected]]
+# if.app-id = "com.trae.app"
+# run = [
+#   "move-node-to-workspace Code",
+# ]
+#
+# [[on-window-detected]]
+# if.app-id = "net.kovidgoyal.kitty"
+# run = [
+#   "move-node-to-workspace Code",
+# ]
+#
 
