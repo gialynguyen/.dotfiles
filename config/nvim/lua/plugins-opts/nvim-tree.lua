@@ -49,6 +49,12 @@ end
 local function on_attach(bufnr)
   local api = require "nvim-tree.api"
 
+  -- NvimTree Keymap
+
+  vim.keymap.set("n", "<c-j>", "<cmd>NvimTreeToggle<CR>")
+  vim.keymap.set("n", "<c-g>", "<cmd>NvimTreeFindFile<CR>")
+  vim.keymap.set("n", "<c-l>", "<cmd>NvimTreeFocus<CR>")
+
   local function opts(desc)
     return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
   end
@@ -196,11 +202,11 @@ api.events.subscribe(api.events.Event.NodeRenamed, function(data)
   for _, client in ipairs(clients) do
     if check_folders_contains(client.workspace_folders, data.old_name) then
       local filters = vim.tbl_get(client.server_capabilities, "workspace", "fileOperations", "didRename", "filters")
-          or {}
+        or {}
       for _, filter in pairs(filters) do
         if
-            match_file_operation_filter(filter, data.old_name, type)
-            and match_file_operation_filter(filter, data.new_name, type)
+          match_file_operation_filter(filter, data.old_name, type)
+          and match_file_operation_filter(filter, data.new_name, type)
         then
           client.notify(
             "workspace/didRenameFiles",

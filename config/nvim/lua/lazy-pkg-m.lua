@@ -170,8 +170,8 @@ require("lazy").setup({
     config = function()
       require("nvim-ts-autotag").setup {
         opts = {
-          enable_close = true, -- Auto close tags
-          enable_rename = true, -- Auto rename pairs of tags
+          enable_close = true,           -- Auto close tags
+          enable_rename = true,          -- Auto rename pairs of tags
           enable_close_on_slash = false, -- Auto close on trailing </
         },
       }
@@ -251,6 +251,21 @@ require("lazy").setup({
       { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
     },
     event = "VeryLazy",
+  },
+
+  {
+    "MagicDuck/grug-far.nvim",
+    -- Note (lazy loading): grug-far.lua defers all it's requires so it's lazy by default
+    -- additional lazy config to defer loading is not really needed...
+    config = function()
+      -- optional setup call to override plugin options
+      -- alternatively you can set options with vim.g.grug_far = { ... }
+      require("grug-far").setup {
+        -- options, see Configuration section below
+        -- there are no required options atm
+      }
+    end,
+    event = "VeryLazy"
   },
 
   {
@@ -433,11 +448,21 @@ require("lazy").setup({
   },
 
   {
+    "stevearc/oil.nvim",
+    dependencies = { { "echasnovski/mini.icons", opts = {} } },
+    config = function()
+      require "plugins-opts.oil"
+    end,
+    lazy = false,
+  },
+
+  {
     "kyazdani42/nvim-tree.lua",
     config = function()
       require "plugins-opts.nvim-tree"
     end,
     lazy = false,
+    enabled = false,
   },
 
   {
@@ -467,7 +492,7 @@ require("lazy").setup({
   {
     "mrcjkb/rustaceanvim",
     version = "^5", -- Recommended
-    lazy = false, -- This plugin is already lazy
+    lazy = false,   -- This plugin is already lazy
     init = function()
       vim.g.rustaceanvim = {
         -- Plugin configuration
@@ -549,7 +574,6 @@ require("lazy").setup({
       require "plugins-opts.transparent"
     end,
     lazy = false,
-    enabled = false,
   },
 
   {

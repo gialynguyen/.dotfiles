@@ -57,21 +57,21 @@ vim.api.nvim_create_autocmd("LspAttach", {
       pattern = "*",
       callback = function()
         if virtual_text ~= false then
-          vim.diagnostic.config({
+          vim.diagnostic.config {
             virtual_text = false,
-          })
+          }
         end
-      end
+      end,
     })
 
     vim.api.nvim_create_autocmd("InsertLeave", {
       pattern = "*",
       callback = function()
-        vim.diagnostic.config({
+        vim.diagnostic.config {
           virtual_text = virtual_text,
           virtual_lines = virtual_text,
-        })
-      end
+        }
+      end,
     })
 
     vim.keymap.set(
@@ -89,12 +89,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
     )
   end,
 })
-
--- NvimTree Keymap
-
-vim.keymap.set("n", "<c-j>", "<cmd>NvimTreeToggle<CR>")
-vim.keymap.set("n", "<c-g>", "<cmd>NvimTreeFindFile<CR>")
-vim.keymap.set("n", "<c-l>", "<cmd>NvimTreeFocus<CR>")
 
 -- Terminal Keymap
 function _G.set_terminal_keymaps()
@@ -143,11 +137,11 @@ local closeHiddenBuffers = function()
     local filetype = vim.fn.getbufvar(buffer, "&buftype")
     print(vim.api.nvim_buf_get_name(buffer))
     if
-        vim.api.nvim_buf_is_valid(buffer)
-        and vim.api.nvim_buf_get_option(buffer, "buflisted")
-        and not vim.api.nvim_buf_get_option(buffer, "modified")
-        and non_hidden_buffer[buffer] == nil
-        and filetype ~= "terminal"
+      vim.api.nvim_buf_is_valid(buffer)
+      and vim.api.nvim_buf_get_option(buffer, "buflisted")
+      and not vim.api.nvim_buf_get_option(buffer, "modified")
+      and non_hidden_buffer[buffer] == nil
+      and filetype ~= "terminal"
     then
       vim.cmd.bdelete { count = buffer }
     end
