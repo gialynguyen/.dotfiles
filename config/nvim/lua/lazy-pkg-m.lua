@@ -255,6 +255,24 @@ require("lazy").setup({
 
   {
     "MagicDuck/grug-far.nvim",
+    cmd = "GrugFar",
+    keys = {
+      {
+        "<leader>sr",
+        function()
+          local grug = require("grug-far")
+          local ext = vim.bo.buftype == "" and vim.fn.expand("%:e")
+          grug.open({
+            transient = true,
+            prefills = {
+              filesFilter = ext and ext ~= "" and "*." .. ext or nil,
+            },
+          })
+        end,
+        mode = { "n", "v" },
+        desc = "Search and Replace",
+      },
+    },
     -- Note (lazy loading): grug-far.lua defers all it's requires so it's lazy by default
     -- additional lazy config to defer loading is not really needed...
     config = function()
@@ -265,7 +283,7 @@ require("lazy").setup({
         -- there are no required options atm
       }
     end,
-    event = "VeryLazy"
+    event = "VeryLazy",
   },
 
   {

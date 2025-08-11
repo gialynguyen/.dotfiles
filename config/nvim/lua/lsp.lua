@@ -145,7 +145,7 @@ for _, server_name in ipairs(mason_lspconfig.get_installed_servers()) do
 end
 
 vim.diagnostic.config {
-  update_in_insert = true,
+  update_in_insert = false,
   virtual_text = false,
   signs = {
     text = {

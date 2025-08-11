@@ -116,6 +116,7 @@ local goForwardBuffer = function()
   vim.api.nvim_command(string.format "silent BufSurfForward")
   vim.cmd [[execute "normal! g`\"zz"]]
 
+
   vim.fn.jobstart "sleep 1 && lua require('bufferline.ui').refresh()"
 end
 
@@ -137,11 +138,11 @@ local closeHiddenBuffers = function()
     local filetype = vim.fn.getbufvar(buffer, "&buftype")
     print(vim.api.nvim_buf_get_name(buffer))
     if
-      vim.api.nvim_buf_is_valid(buffer)
-      and vim.api.nvim_buf_get_option(buffer, "buflisted")
-      and not vim.api.nvim_buf_get_option(buffer, "modified")
-      and non_hidden_buffer[buffer] == nil
-      and filetype ~= "terminal"
+        vim.api.nvim_buf_is_valid(buffer)
+        and vim.api.nvim_buf_get_option(buffer, "buflisted")
+        and not vim.api.nvim_buf_get_option(buffer, "modified")
+        and non_hidden_buffer[buffer] == nil
+        and filetype ~= "terminal"
     then
       vim.cmd.bdelete { count = buffer }
     end
@@ -154,8 +155,8 @@ vim.keymap.set("n", "<c-x>", goBackAndCloseCurrentBuf)
 vim.keymap.set("n", "]b", goForwardBuffer)
 vim.keymap.set("n", "[b", goBackBuffer)
 
-vim.keymap.set("n", "<leader>q", "<cmd>bp<CR><cmd>bd #<CR>")
-vim.keymap.set("n", "<leader>x", "<cmd>bp<CR><cmd>bd #<CR><cmd>q<CR>")
+vim.keymap.set("n", ",q", "<cmd>bp<CR><cmd>bd #<CR>")
+vim.keymap.set("n", ",x", "<cmd>bp<CR><cmd>bd #<CR><cmd>q<CR>")
 vim.keymap.set("n", ",[", "<cmd>bprevious<CR>")
 vim.keymap.set("n", ",]", "<cmd>bnext<CR>")
 
