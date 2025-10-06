@@ -61,6 +61,7 @@ none_ls.setup {
         }
       end,
     },
+    require "none-ls.formatting.ruff",
 
     -- Diagnostics
     cspell.diagnostics.with {
@@ -92,6 +93,7 @@ none_ls.setup {
         }
       end,
     },
+    require "none-ls.diagnostics.ruff",
 
     -- Code actions
     require "none-ls.code_actions.eslint",

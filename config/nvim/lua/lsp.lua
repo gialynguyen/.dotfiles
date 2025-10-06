@@ -5,7 +5,7 @@ require("mason").setup {
 }
 
 require("mason-lspconfig").setup {
-  automatic_enable = false,
+  automatic_enable = true,
   ensure_installed = {
     "bashls",
     "clangd",
@@ -14,7 +14,6 @@ require("mason-lspconfig").setup {
     "gopls",
     "html",
     "eslint",
-    "pyright",
     "tailwindcss",
     "astro",
     "vtsls",
@@ -137,11 +136,10 @@ local setup_server = {
     end,
   },
 }
-
 for _, server_name in ipairs(mason_lspconfig.get_installed_servers()) do
   local opts = vim.tbl_deep_extend("force", default_opts, setup_server[server_name] or {})
 
-  lspconfig[server_name].setup(opts)
+  vim.lsp.config(server_name, opts)
 end
 
 vim.diagnostic.config {
