@@ -170,8 +170,8 @@ require("lazy").setup({
     config = function()
       require("nvim-ts-autotag").setup {
         opts = {
-          enable_close = true,           -- Auto close tags
-          enable_rename = true,          -- Auto rename pairs of tags
+          enable_close = true, -- Auto close tags
+          enable_rename = true, -- Auto rename pairs of tags
           enable_close_on_slash = false, -- Auto close on trailing </
         },
       }
@@ -260,14 +260,14 @@ require("lazy").setup({
       {
         "<leader>sr",
         function()
-          local grug = require("grug-far")
-          local ext = vim.bo.buftype == "" and vim.fn.expand("%:e")
-          grug.open({
+          local grug = require "grug-far"
+          local ext = vim.bo.buftype == "" and vim.fn.expand "%:e"
+          grug.open {
             transient = true,
             prefills = {
               filesFilter = ext and ext ~= "" and "*." .. ext or nil,
             },
-          })
+          }
         end,
         mode = { "n", "v" },
         desc = "Search and Replace",
@@ -327,26 +327,6 @@ require("lazy").setup({
     event = "VeryLazy",
   },
 
-  -- {
-  --   "copilotlsp-nvim/copilot-lsp",
-  --   lazy = false,
-  --   init = function()
-  --     vim.g.copilot_nes_debounce = 500
-  --     vim.lsp.enable "copilot_ls"
-  --     vim.keymap.set("n", "<tab>", function()
-  --       -- Try to jump to the start of the suggestion edit.
-  --       -- If already at the start, then apply the pending suggestion and jump to the end of the edit.
-  --       local _ = require("copilot-lsp.nes").walk_cursor_start_edit()
-  --         or (require("copilot-lsp.nes").apply_pending_nes() and require("copilot-lsp.nes").walk_cursor_end_edit())
-  --     end)
-  --     vim.keymap.set("n", "<esc>", function()
-  --       if not require("copilot-lsp.nes").clear() then
-  --         -- fallback to other functionality
-  --       end
-  --     end, { desc = "Clear Copilot suggestion or fallback" })
-  --   end,
-  -- },
-
   {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
@@ -363,19 +343,92 @@ require("lazy").setup({
   },
 
   {
-    "greggh/claude-code.nvim",
-    dependencies = {
-      "nvim-lua/plenary.nvim", -- Required for git operations
+    "folke/sidekick.nvim",
+    event = "VeryLazy",
+    opts = {
+      -- add any options here
+      cli = {
+        -- mux = {
+        --   backend = "zellij",
+        --   enabled = true,
+        -- },
+      },
     },
-    config = function()
-      require("claude-code").setup {
-        window = {
-          position = "float",
-        },
-      }
-    end,
-    event = {
-      "VeryLazy",
+    keys = {
+      {
+        "<tab>",
+        function()
+          -- if there is a next edit, jump to it, otherwise apply it if any
+          if not require("sidekick").nes_jump_or_apply() then
+            return "<Tab>" -- fallback to normal tab
+          end
+        end,
+        expr = true,
+        desc = "Goto/Apply Next Edit Suggestion",
+      },
+      {
+        "<c-.>",
+        function()
+          require("sidekick.cli").toggle()
+        end,
+        desc = "Sidekick Toggle",
+        mode = { "n", "t", "i", "x" },
+      },
+      {
+        "<leader>aa",
+        function()
+          require("sidekick.cli").toggle()
+        end,
+        desc = "Sidekick Toggle CLI",
+      },
+      {
+        "<leader>as",
+        function()
+          require("sidekick.cli").select()
+        end,
+        -- Or to select only installed tools:
+        -- require("sidekick.cli").select({ filter = { installed = true } })
+        desc = "Select CLI",
+      },
+      {
+        "<leader>at",
+        function()
+          require("sidekick.cli").send { msg = "{this}" }
+        end,
+        mode = { "x", "n" },
+        desc = "Send This",
+      },
+      {
+        "<leader>af",
+        function()
+          require("sidekick.cli").send { msg = "{file}" }
+        end,
+        desc = "Send File",
+      },
+      {
+        "<leader>av",
+        function()
+          require("sidekick.cli").send { msg = "{selection}" }
+        end,
+        mode = { "x" },
+        desc = "Send Visual Selection",
+      },
+      {
+        "<leader>ap",
+        function()
+          require("sidekick.cli").prompt()
+        end,
+        mode = { "n", "x" },
+        desc = "Sidekick Select Prompt",
+      },
+      -- Open Crush directly
+      {
+        "<leader>ac",
+        function()
+          require("sidekick.cli").toggle { name = "crush", focus = true }
+        end,
+        desc = "Sidekick Crush",
+      },
     },
   },
 
@@ -510,7 +563,7 @@ require("lazy").setup({
   {
     "mrcjkb/rustaceanvim",
     version = "^5", -- Recommended
-    lazy = false,   -- This plugin is already lazy
+    lazy = false, -- This plugin is already lazy
     init = function()
       vim.g.rustaceanvim = {
         -- Plugin configuration
