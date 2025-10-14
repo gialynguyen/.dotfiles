@@ -58,6 +58,11 @@ require("lazy").setup({
   },
 
   {
+    "f-person/auto-dark-mode.nvim",
+    opts = {},
+  },
+
+  {
     "sainnhe/gruvbox-material",
     lazy = false,
     priority = 1000,
@@ -338,7 +343,6 @@ require("lazy").setup({
         markdown = true,
         help = true,
       },
-      copilot_model = "claude-sonnet-4",
     },
   },
 
@@ -499,15 +503,13 @@ require("lazy").setup({
     "saghen/blink.cmp",
     version = "*",
     dependencies = {
+      "fang2hou/blink-copilot",
       {
         "rafamadriz/friendly-snippets",
       },
       {
         "L3MON4D3/LuaSnip",
         version = "v2.*",
-      },
-      {
-        "giuxtaposition/blink-cmp-copilot",
       },
     },
 
@@ -610,11 +612,18 @@ require("lazy").setup({
     },
   },
   {
-    "nvimtools/none-ls.nvim",
-    dependencies = { "davidmh/cspell.nvim", "nvimtools/none-ls-extras.nvim" },
+    "mfussenegger/nvim-lint",
     event = { "BufReadPost", "BufNewFile" },
     config = function()
-      require "plugins-opts.none-ls"
+      require "plugins-opts.nvim-lint"
+    end,
+  },
+
+  {
+    "stevearc/conform.nvim",
+    event = { "BufReadPost", "BufNewFile" },
+    config = function()
+      require "plugins-opts.conform"
     end,
   },
 

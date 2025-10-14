@@ -7,8 +7,8 @@ vim.o.foldenable = true
 -- Using ufo provider need remap `zR` and `zM`. If Neovim is 0.6.1, remap yourself
 vim.keymap.set("n", "zR", require("ufo").openAllFolds)
 vim.keymap.set("n", "zM", require("ufo").closeAllFolds)
-vim.keymap.set('n', 'zr', require('ufo').openFoldsExceptKinds)
-vim.keymap.set('n', 'zm', require('ufo').closeFoldsWith)
+vim.keymap.set("n", "zr", require("ufo").openFoldsExceptKinds)
+vim.keymap.set("n", "zm", require("ufo").closeFoldsWith)
 
 require("ufo").setup {
   preview = {
@@ -48,33 +48,44 @@ require("ufo").setup {
     table.insert(newVirtText, { suffix, "MoreMsg" })
     return newVirtText
   end,
+  close_fold_kinds_for_ft = {
+    default = {
+      "imports", -- only works if the cursor is on the first line or after the imports; not within the imports
+      "comment",
+    },
+    json = { "array" },
+    typescript = { "imports" },
+  },
+  provider_selector = function(bufnr, filetype, buftype)
+    -- return { "treesitter", "indent" }
+    return { "treesitter" }
+  end,
 }
 
-vim.o.statuscolumn = '%= '
-    .. '%s'  -- sign column FIXME: figure out how to put on the other side without having to do a lot of shifting
-    .. '%{%' -- evaluate this, and then evaluate what it returns
-    .. '&number ?'
-    .. '(v:relnum ?'
-    ..
-    'printf("%"..len(line("$")).."s", v:relnum)' -- when showing relative numbers, make sure to pad so things don't shift as you move the cursor
-    .. ':'
-    .. 'v:lnum'
-    .. ')'
-    .. ':'
-    .. '""'
-    .. ' ' -- space between lines and fold
-    .. '%}'
-    .. '%= '
-    .. '%#FoldColumn#' -- highlight group for fold
-    .. '%{' -- expression for showing fold expand/colapse
-    .. 'foldlevel(v:lnum) > foldlevel(v:lnum - 1)' -- any folds?
-    .. '? (foldclosed(v:lnum) == -1' -- currently open?
-    .. '? ""' -- point down
-    .. ':  ""' -- point to right
-    .. ')'
-    .. ': " "' -- blank for no fold, or inside fold
-    .. '}'
-    .. '%= ' -- spacing between end of column and start of text
+vim.o.statuscolumn = "%= "
+  .. "%s" -- sign column FIXME: figure out how to put on the other side without having to do a lot of shifting
+  .. "%{%" -- evaluate this, and then evaluate what it returns
+  .. "&number ?"
+  .. "(v:relnum ?"
+  .. "printf(\"%\"..len(line(\"$\"))..\"s\", v:relnum)" -- when showing relative numbers, make sure to pad so things don't shift as you move the cursor
+  .. ":"
+  .. "v:lnum"
+  .. ")"
+  .. ":"
+  .. "\"\""
+  .. " " -- space between lines and fold
+  .. "%}"
+  .. "%= "
+  .. "%#FoldColumn#" -- highlight group for fold
+  .. "%{" -- expression for showing fold expand/colapse
+  .. "foldlevel(v:lnum) > foldlevel(v:lnum - 1)" -- any folds?
+  .. "? (foldclosed(v:lnum) == -1" -- currently open?
+  .. "? \"\"" -- point down
+  .. ":  \"\"" -- point to right
+  .. ")"
+  .. ": \" \"" -- blank for no fold, or inside fold
+  .. "}"
+  .. "%= " -- spacing between end of column and start of text
 
 -- vim.o.statuscolumn =
 -- "%=%l%s%#FoldColumn#%{foldlevel(v:lnum) > foldlevel(v:lnum - 1) ? (foldclosed(v:lnum) == -1 ? \"  \" : \"  \") : \"  \" }%*"

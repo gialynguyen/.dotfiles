@@ -7,7 +7,7 @@ if vim.g.transparent_enabled == true then
     extra_groups = {
       "NormalFloat",
       "NvimTreeNormal",
-      "FloatBorder",
+      -- "FloatBorder",
     },
   }
 
@@ -16,4 +16,5 @@ if vim.g.transparent_enabled == true then
   transparent.clear_prefix "lualine"
   transparent.clear_prefix "Ufo"
   transparent.clear_prefix "Fold"
+  transparent.clear_prefix "Blink"
 end
