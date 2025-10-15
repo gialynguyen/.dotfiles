@@ -25,7 +25,7 @@ conform.setup {
     go = { "gofmt" },
 
     -- Python
-    python = { "ruff_format" },
+    python = { "ruff_fix", "ruff_format", "ruff_organize_imports" },
 
     -- JavaScript/TypeScript
     javascript = { "prettier" },
