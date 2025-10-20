@@ -352,11 +352,12 @@ require("lazy").setup({
     event = "VeryLazy",
     opts = {
       -- add any options here
-      cli = {
-        -- mux = {
-        --   backend = "zellij",
-        --   enabled = true,
-        -- },
+      nes = {
+        clear = {
+          -- events that clear the current next edit suggestion
+          events = { "TextChangedI", "InsertEnter" },
+          esc = true, -- clear next edit suggestions when pressing <Esc>
+        },
       },
     },
     keys = {

@@ -116,6 +116,11 @@ local setup_server = {
       -- helps eslint find the eslintrc when it's placed in a subfolder instead of the cwd root
       workingDirectories = { mode = "auto" },
       validate = "on",
+      format = true,
+      codeActionsOnSave = {
+        enable = true,
+        mode = "all",
+      },
     },
   },
   lua_ls = {

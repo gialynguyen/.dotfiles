@@ -1,3 +1,4 @@
+vim.opt.exrc = true
 vim.o.cursorline = false
 vim.o.clipboard = "unnamedplus"
 vim.o.ignorecase = true

@@ -111,17 +111,36 @@ vim.api.nvim_create_user_command("Format", function(args)
   conform.format { async = true, lsp_format = "fallback", range = range }
 end, { range = true })
 
+local function organize_imports()
+  local ft = vim.bo.filetype:gsub("react$", "")
+  if not vim.tbl_contains({ "javascript", "typescript" }, ft) then
+    return
+  end
+  local ok = vim.lsp.buf_request_sync(0, "workspace/executeCommand", {
+    command = (ft .. ".organizeImports"),
+    arguments = { vim.api.nvim_buf_get_name(0) },
+  }, 3000)
+  if not ok then
+    print "Command timeout or failed to complete."
+  end
+end
+
 vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = "*",
   callback = function(args)
-    require("conform").format {
+    conform.format {
       bufnr = args.buf,
       async = false,
       quiet = false,
+      lsp_format = "first",
       timeout_ms = 500,
       filter = function(client)
         return client.name == "eslint"
       end,
     }
+
+    if vim.bo[args.buf].filetype == "typescript" or vim.bo[args.buf].filetype == "typescriptreact" then
+      organize_imports()
+    end
   end,
 })
