@@ -67,9 +67,9 @@ require("blink.cmp").setup {
     },
     documentation = { window = { border = "single" } },
     trigger = {
-      prefetch_on_insert = false,
-      show_in_snippet = false,
-      show_on_keyword = false,
+      -- prefetch_on_insert = false,
+      -- show_in_snippet = false,
+      -- show_on_keyword = false,
     },
   },
 

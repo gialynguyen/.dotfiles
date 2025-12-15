@@ -7,27 +7,27 @@ require("mason").setup {
 require("mason-lspconfig").setup {
   automatic_enable = true,
   ensure_installed = {
-    "bashls",
-    "clangd",
-    "cssls",
-    "cssmodules_ls",
-    "gopls",
-    "html",
-    "eslint",
-    "tailwindcss",
-    "astro",
-    "vtsls",
-    "lua_ls",
+    -- "bashls",
+    -- "clangd",
+    -- "cssls",
+    -- "cssmodules_ls",
+    -- "gopls",
+    -- "html",
+    -- "eslint",
+    -- "tailwindcss",
+    -- "astro",
+    -- "vtsls",
+    -- "lua_ls",
   },
-  automatic_installation = true,
+  automatic_installation = false,
 }
 
 local capabilities = require("blink.cmp").get_lsp_capabilities()
 
 local default_opts = {
-  on_attach = function(client, bufnr)
-    vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
-  end,
+  -- on_attach = function(client, bufnr)
+  --   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+  -- end,
   autostart = true,
   capabilities = capabilities,
 }
@@ -49,7 +49,7 @@ local setup_server = {
     enabled = false,
     autostart = false,
   },
-  vtsls = {
+  ["vtsls"] = {
     filetypes = {
       "javascript",
       "javascriptreact",
@@ -85,13 +85,13 @@ local setup_server = {
         },
       },
     },
-    on_attach = function(client, bufnr)
-      vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
-
-      -- You can also define keybindings here
-      local opts = { noremap = true, silent = true }
-      vim.api.nvim_buf_set_keymap(bufnr, "n", ",vs", "<cmd>VtsExec source_actions<CR>", opts)
-    end,
+    -- on_attach = function(client, bufnr)
+    --   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+    --
+    --   -- You can also define keybindings here
+    --   local opts = { noremap = true, silent = true }
+    --   vim.api.nvim_buf_set_keymap(bufnr, "n", ",vs", "<cmd>VtsExec source_actions<CR>", opts)
+    -- end,
 
     capabilities = capabilities,
   },
@@ -132,19 +132,19 @@ local setup_server = {
       },
     },
   },
-  svelte = {
-    on_attach = function(client, bufnr)
-      vim.api.nvim_create_autocmd("BufWritePost", {
-        pattern = { "*.js", "*.ts" },
-        group = vim.api.nvim_create_augroup("svelte_ondidchangetsorjsfile", { clear = true }),
-        callback = function(ctx)
-          -- Here use ctx.match instead of ctx.file
-          client.notify("$/onDidChangeTsOrJsFile", { uri = ctx.match })
-        end,
-      })
-      vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
-    end,
-  },
+  -- svelte = {
+  --   on_attach = function(client, bufnr)
+  --     vim.api.nvim_create_autocmd("BufWritePost", {
+  --       pattern = { "*.js", "*.ts" },
+  --       group = vim.api.nvim_create_augroup("svelte_ondidchangetsorjsfile", { clear = true }),
+  --       callback = function(ctx)
+  --         -- Here use ctx.match instead of ctx.file
+  --         client.notify("$/onDidChangeTsOrJsFile", { uri = ctx.match })
+  --       end,
+  --     })
+  --     vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
+  --   end,
+  -- },
 }
 for _, server_name in ipairs(mason_lspconfig.get_installed_servers()) do
   local opts = vim.tbl_deep_extend("force", default_opts, setup_server[server_name] or {})

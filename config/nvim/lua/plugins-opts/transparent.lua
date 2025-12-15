@@ -7,7 +7,8 @@ if vim.g.transparent_enabled == true then
     extra_groups = {
       "NormalFloat",
       "NvimTreeNormal",
-      -- "FloatBorder",
+      "FloatBorder",
+      "FloatTitle",
     },
   }
 

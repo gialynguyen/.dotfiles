@@ -28,10 +28,10 @@ conform.setup {
     python = { "ruff_fix", "ruff_format", "ruff_organize_imports" },
 
     -- JavaScript/TypeScript
-    javascript = { "prettier" },
-    typescript = { "prettier" },
-    javascriptreact = { "prettier" },
-    typescriptreact = { "prettier" },
+    javascript = { "oxfmt", "prettier" },
+    typescript = { "oxfmt", "prettier" },
+    javascriptreact = { "oxfmt", "prettier" },
+    typescriptreact = { "oxfmt", "prettier" },
     svelte = { "prettier" },
     vue = { "prettier" },
     json = { "prettier" },
@@ -69,26 +69,33 @@ conform.setup {
         return false
       end,
     },
+    oxfmt = {
+      command = "oxfmt",
+      args = { "$FILENAME" },
+      stdin = false,
+      -- When stdin=false, use this template to generate the temporary file that gets formatted
+      tmpfile_format = ".conform.$RANDOM.$FILENAME",
+    },
   },
 
   -- Format on save with async formatting
-  format_after_save = function(bufnr)
-    if is_format_disabled == 1 then
-      return nil
-    end
-
-    -- Skip if buffer is modified
-    if vim.api.nvim_buf_get_option(bufnr, "modified") then
-      return nil
-    end
-
-    return {
-      timeout_ms = 500,
-      lsp_format = "fallback",
-      async = true,
-      quiet = false,
-    }
-  end,
+  -- format_after_save = function(bufnr)
+  --   if is_format_disabled == 1 then
+  --     return nil
+  --   end
+  --
+  --   -- Skip if buffer is modified
+  --   if vim.api.nvim_buf_get_option(bufnr, "modified") then
+  --     return nil
+  --   end
+  --
+  --   return {
+  --     timeout_ms = 500,
+  --     lsp_format = "fallback",
+  --     async = true,
+  --     quiet = false,
+  --   }
+  -- end,
 
   -- Notify on errors
   notify_on_error = true,
@@ -128,6 +135,10 @@ end
 vim.api.nvim_create_autocmd("BufWritePre", {
   pattern = "*",
   callback = function(args)
+    if is_format_disabled == 1 then
+      return
+    end
+
     conform.format {
       bufnr = args.buf,
       async = false,

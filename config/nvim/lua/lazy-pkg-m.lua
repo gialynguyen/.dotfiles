@@ -247,6 +247,7 @@ require("lazy").setup({
 
   {
     "nvim-telescope/telescope.nvim",
+    branch = "master",
     config = function()
       require "plugins-opts.telescope"
     end,
@@ -262,32 +263,25 @@ require("lazy").setup({
   {
     "MagicDuck/grug-far.nvim",
     cmd = "GrugFar",
-    keys = {
-      {
-        "<leader>sr",
-        function()
-          local grug = require "grug-far"
-          local ext = vim.bo.buftype == "" and vim.fn.expand "%:e"
-          grug.open {
-            transient = true,
-            prefills = {
-              filesFilter = ext and ext ~= "" and "*." .. ext or nil,
-            },
-          }
-        end,
-        mode = { "n", "v" },
-        desc = "Search and Replace",
-      },
-    },
-    -- Note (lazy loading): grug-far.lua defers all it's requires so it's lazy by default
-    -- additional lazy config to defer loading is not really needed...
+    -- keys = {
+    --   {
+    --     "<leader>sr",
+    --     function()
+    --       local grug = require "grug-far"
+    --       local ext = vim.bo.buftype == "" and vim.fn.expand "%:e"
+    --       grug.open {
+    --         transient = true,
+    --         prefills = {
+    --           filesFilter = ext and ext ~= "" and "*." .. ext or nil,
+    --         },
+    --       }
+    --     end,
+    --     mode = { "n", "v" },
+    --     desc = "Search and Replace",
+    --   },
+    -- },
     config = function()
-      -- optional setup call to override plugin options
-      -- alternatively you can set options with vim.g.grug_far = { ... }
-      require("grug-far").setup {
-        -- options, see Configuration section below
-        -- there are no required options atm
-      }
+      require "plugins-opts.grug-far"
     end,
     event = "VeryLazy",
   },
@@ -333,33 +327,26 @@ require("lazy").setup({
     event = "VeryLazy",
   },
 
-  {
-    "zbirenbaum/copilot.lua",
-    cmd = "Copilot",
-    build = ":Copilot auth",
-    opts = {
-      suggestion = { enabled = false },
-      panel = { enabled = false },
-      filetypes = {
-        markdown = true,
-        help = true,
-      },
-    },
-  },
+  -- {
+  --   "zbirenbaum/copilot.lua",
+  --   cmd = "Copilot",
+  --   build = ":Copilot auth",
+  --   opts = {
+  --     suggestion = { enabled = false },
+  --     panel = { enabled = false },
+  --     filetypes = {
+  --       markdown = true,
+  --       help = true,
+  --     },
+  --   },
+  -- },
 
   {
     "folke/sidekick.nvim",
     event = "VeryLazy",
-    opts = {
-      -- add any options here
-      nes = {
-        clear = {
-          -- events that clear the current next edit suggestion
-          events = { "TextChangedI", "InsertEnter" },
-          esc = true, -- clear next edit suggestions when pressing <Esc>
-        },
-      },
-    },
+    config = function()
+      require "plugins-opts.sidekick"
+    end,
     keys = {
       {
         "<tab>",
@@ -383,9 +370,9 @@ require("lazy").setup({
       {
         "<leader>aa",
         function()
-          require("sidekick.cli").toggle()
+          require("sidekick.cli").select()
         end,
-        desc = "Sidekick Toggle CLI",
+        desc = "Sidekick Start or attach to a CLI tool",
       },
       {
         "<leader>as",
@@ -523,13 +510,25 @@ require("lazy").setup({
   },
 
   {
-    "stevearc/oil.nvim",
-    dependencies = { { "echasnovski/mini.icons", opts = {} } },
+    "A7Lavinraj/fyler.nvim",
+    dependencies = {
+      "nvim-mini/mini.icons",
+    },
+    branch = "main", -- Use stable branch for production
+    lazy = false, -- Necessary for `default_explorer` to work properly
     config = function()
-      require "plugins-opts.oil"
+      require "plugins-opts.fyler"
     end,
-    lazy = false,
   },
+
+  -- {
+  --   "stevearc/oil.nvim",
+  --   dependencies = { { "echasnovski/mini.icons", opts = {} } },
+  --   config = function()
+  --     require "plugins-opts.oil"
+  --   end,
+  --   lazy = false,
+  -- },
 
   {
     "kyazdani42/nvim-tree.lua",
@@ -550,8 +549,24 @@ require("lazy").setup({
   },
 
   {
-    "yioneko/nvim-vtsls",
+    "linux-cultist/venv-selector.nvim",
+    dependencies = {
+      "neovim/nvim-lspconfig",
+      { "nvim-telescope/telescope.nvim", branch = "master", dependencies = { "nvim-lua/plenary.nvim" } }, -- optional: you can also use fzf-lua, snacks, mini-pick instead.
+    },
+    ft = "python", -- Load when opening Python files
+    keys = {
+      { ",v", "<cmd>VenvSelect<cr>" }, -- Open picker on keymap
+    },
+    opts = { -- this can be an empty lua table - just showing below for clarity.
+      search = {}, -- if you add your own searches, they go here.
+      options = {}, -- if you add plugin options, they go here.
+    },
   },
+
+  -- {
+  --   "yioneko/nvim-vtsls",
+  -- },
 
   {
     "williamboman/mason.nvim",
@@ -650,6 +665,22 @@ require("lazy").setup({
     event = { "BufReadPost" },
   },
 
+  {
+    "ChuufMaster/buffer-vacuum",
+    lazy = false,
+    opts = {
+      -- The maximum number of buffers to keep (excluding modified buffer)
+      max_buffers = 8,
+
+      -- Change to True if you want pinned buffers to count to the
+      -- maximum number buffers
+      count_pinned_buffers = true,
+
+      -- Enable notifications every time a buffer is pinned or deleted
+      -- Default FALSE
+      enable_messages = false,
+    },
+  },
   {
     "xiyaowong/nvim-transparent",
     config = function()
