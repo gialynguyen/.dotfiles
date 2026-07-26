@@ -41,6 +41,14 @@ require("lazy").setup({
   },
 
   {
+    "folke/which-key.nvim",
+    event = "VeryLazy",
+    config = function()
+      require "plugins-opts.which-key"
+    end,
+  },
+
+  {
     "echasnovski/mini.icons",
     opts = {},
     lazy = true,
