@@ -181,8 +181,8 @@ vim.api.nvim_create_user_command("Wrapline", function() vim.wo.wrap = true end, 
 vim.api.nvim_create_user_command("Nowrapline", function() vim.wo.wrap = false end, {})
 
 vim.keymap.set("n", "<leader>db", "<cmd>Dashboard<CR>")
--- fyler is the active explorer (netrw is disabled), so <leader>e opens fyler
-vim.keymap.set("n", "<leader>e", function() require("fyler").open() end, { noremap = true, silent = true, desc = "Open file explorer (fyler)" })
+-- neo-tree is the active explorer (netrw is disabled), so <leader>e reveals the current file in the tree
+vim.keymap.set("n", "<leader>e", "<cmd>Neotree reveal toggle<cr>", { noremap = true, silent = true, desc = "Open file explorer (reveal)" })
 
 vim.keymap.set("n", "<leader>Q", "<cmd>tabc<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<leader>za", "<cmd>ZenMode<CR>", { noremap = true, silent = true })

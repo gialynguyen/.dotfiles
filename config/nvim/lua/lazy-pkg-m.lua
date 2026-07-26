@@ -508,15 +508,15 @@ require("lazy").setup({
   },
 
   {
-    "A7Lavinraj/fyler.nvim",
-    -- enabled = false,
+    "nvim-neo-tree/neo-tree.nvim",
+    branch = "v3.x",
     dependencies = {
-      "nvim-mini/mini.icons",
+      "MunifTanjim/nui.nvim",
+      "echasnovski/mini.icons",
     },
-    -- branch = "stable", -- Use stable branch for production
-    lazy = false, -- Necessary for `default_explorer` to work properly
+    lazy = false, -- load at startup so directory buffers are hijacked (netrw replacement)
     config = function()
-      require "plugins-opts.fyler"
+      require "plugins-opts.neo-tree"
     end,
   },
 

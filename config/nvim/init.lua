@@ -92,7 +92,7 @@ local function set_options()
   vim.opt.background = "dark"
   vim.cmd("colorscheme tokyonight")
 
-  -- Disable netrw (fyler is the file explorer)
+  -- Disable netrw (neo-tree is the file explorer)
   vim.g.loaded_netrw = 1
   vim.g.loaded_netrwPlugin = 1
 end

@@ -11,7 +11,7 @@ illuminate.configure {
   delay = 1000,
   filetypes_denylist = {
     "dashboard",
-    "NvimTree",
+    "neo-tree",
     "packer",
     "Outline",
     "terminal",

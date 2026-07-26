@@ -3,7 +3,7 @@ require("indentmini").setup {
     "help",
     "dashboard",
     "packer",
-    "NvimTree",
+    "neo-tree",
     "text",
     "terminal",
     "nofile",
