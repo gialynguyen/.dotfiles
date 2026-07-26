@@ -1,4 +1,15 @@
+-- Load VSCode-style snippets (friendly-snippets) and any lua/snipmate snippets
+-- into LuaSnip, which blink's `luasnip` snippet preset reads from.
+local ok_luasnip, luasnip = pcall(require, "luasnip")
+if ok_luasnip then
+  luasnip.setup({})
+  require("luasnip.loaders.from_vscode").lazy_load()
+  require("luasnip.loaders.from_lua").lazy_load()
+  require("luasnip.loaders.from_snipmate").lazy_load()
+end
+
 require("blink.cmp").setup {
+  snippets = { preset = "luasnip" },
   keymap = {
     preset = "enter",
     ["<C-space>"] = {},

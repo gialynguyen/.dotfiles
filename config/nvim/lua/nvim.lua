@@ -1,6 +1,6 @@
 vim.opt.exrc = true
 vim.o.cursorline = false
-vim.o.clipboard = "unnamedplus"
+-- vim.o.clipboard = "unnamedplus"
 vim.o.ignorecase = true
 vim.o.lazyredraw = true
 vim.o.number = true
@@ -22,7 +22,6 @@ vim.wo.linebreak = true
 vim.opt.signcolumn = "yes"
 
 vim.g.mapleader = "\\"
-vim.g.loaded_matchparen = true
 
 vim.o.mouse = "a"
 vim.o.inccommand = "nosplit"
@@ -32,21 +31,31 @@ vim.g.VM_silent_exit = 1
 
 local aug = vim.api.nvim_create_augroup("buf_large", { clear = true })
 
-vim.api.nvim_create_autocmd({ "BufReadPre" }, {
+vim.api.nvim_create_autocmd("BufReadPre", {
+  group = aug,
+  pattern = "*",
   callback = function()
     local max_size = 1024 * 50
     local bufnr = vim.api.nvim_get_current_buf()
-    local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(bufnr))
+    local ok, stats = pcall(vim.uv.fs_stat, vim.api.nvim_buf_get_name(bufnr))
     if ok and stats and ((stats.size > max_size) or (vim.api.nvim_buf_line_count(bufnr) > 5000)) then
       vim.b.large_buf = true
-      vim.cmd "IlluminatePauseBuf"
+      pcall(vim.cmd, "IlluminatePauseBuf")
       vim.opt_local.foldmethod = "manual"
       vim.opt_local.spell = false
-      vim.g.loaded_matchparen = false
     else
       vim.b.large_buf = false
     end
   end,
-  group = aug,
+})
+
+-- sync with system clipboard on focus
+vim.api.nvim_create_autocmd({ "FocusGained" }, {
   pattern = "*",
+  command = [[call setreg("@", getreg("+"))]],
+})
+
+vim.api.nvim_create_autocmd({ "FocusLost" }, {
+  pattern = "*",
+  command = [[call setreg("+", getreg("@"))]],
 })

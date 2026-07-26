@@ -1,33 +1,10 @@
 vim.cmd("syntax on")
 vim.cmd("set termguicolors")
 
-local function check_gui_running()
-  if not vim.fn.has("gui_running") and vim.fn.expand("%:t") == "screen" or vim.fn.expand("%:t") == "tmux" then
-    vim.cmd('let &t_8f = "<Esc>[38;2;%lu;%lu;%lum"')
-    vim.cmd('let &t_8b = "<Esc>[48;2;%lu;%lu;%lum"')
-  end
-end
-
 local function set_default_shell()
   if os.getenv("SHELL") then
-    vim.cmd("set shell=" .. os.getenv("SHELL"))
+    vim.opt.shell = os.getenv("SHELL")
   end
-end
-
-local function check_termguicolors()
-  if vim.fn.exists("+termguicolors") and vim.fn.getenv("TERM_PROGRAM") ~= "Apple_Terminal" then
-    vim.cmd('let &t_8f = "<Esc>[38;2;%lu;%lu;%lum"')
-    vim.cmd('let &t_8b = "<Esc>[48;2;%lu;%lu;%lum"')
-    vim.cmd("set termguicolors")
-  end
-end
-
-local function load_runtime_files()
-  vim.cmd("runtime OPT general.vim")
-  vim.cmd("runtime OPT mapping.vim")
-  vim.cmd("runtime OPT abbreviation.vim")
-  vim.cmd("runtime OPT colors.vim")
-  vim.cmd("runtime OPT packs.vim")
 end
 
 local function require_modules()
@@ -38,95 +15,80 @@ local function require_modules()
 end
 
 local function highlight_matchparen()
-  vim.cmd("augroup matchup_matchparen_highlight")
-  vim.cmd("autocmd!")
-  vim.cmd("autocmd ColorScheme * hi MatchParen guifg=#f6f3e8 guibg=#857b6f gui=none")
-  vim.cmd("augroup END")
+  vim.api.nvim_create_augroup("matchup_matchparen_highlight", { clear = true })
+  vim.api.nvim_create_autocmd("ColorScheme", {
+    group = "matchup_matchparen_highlight",
+    pattern = "*",
+    command = "hi MatchParen guifg=#f6f3e8 guibg=#857b6f gui=none",
+  })
 end
 
 local function setup_keymaps()
   -- Leader + gt to open lazygit
-  vim.api.nvim_set_keymap("n", "<leader>gt", ":FloatermNew --title=lazy-git lazygit<CR>", { silent = true })
-  vim.api.nvim_set_keymap("i", "<leader>gt", ":FloatermNew --title=lazy-git lazygit<CR>", { silent = true })
+  vim.keymap.set({ "n", "i" }, "<leader>gt", ":FloatermNew --title=lazy-git lazygit<CR>", { silent = true })
 
   -- Leader + sr to open serpl
-  vim.api.nvim_set_keymap("n", "<leader>sr", ":FloatermNew --title=search-&-replace serpl<CR>", { silent = true })
-  vim.api.nvim_set_keymap("i", "<leader>sr", ":FloatermNew --title=search-&-replace serpl<CR>", { silent = true })
+  vim.keymap.set({ "n", "i" }, "<leader>sr", ":FloatermNew --title=search-&-replace serpl<CR>", { silent = true })
 
   -- ToggleTermToggleAll mappings (normal and insert mode)
-  vim.api.nvim_set_keymap("t", "<C-\\>", "<C-e>:ToggleTermToggleAll<CR>", { silent = true })
-  vim.api.nvim_set_keymap("n", "<C-\\>", ":ToggleTermToggleAll<CR>i", { silent = true })
-  vim.api.nvim_set_keymap("i", "<C-\\>", "<ESC>:ToggleTermToggleAll<CR>", { silent = true })
+  vim.keymap.set("t", "<C-\\>", "<C-e>:ToggleTermToggleAll<CR>", { silent = true })
+  vim.keymap.set("n", "<C-\\>", ":ToggleTermToggleAll<CR>i", { silent = true })
+  vim.keymap.set("i", "<C-\\>", "<ESC>:ToggleTermToggleAll<CR>", { silent = true })
 
-  -- Close popup
-  vim.api.nvim_set_keymap("n", "Q", "<C-w><C-w>q", { silent = true })
+  -- Close popup / window
+  vim.keymap.set("n", "Q", "<C-w><C-w>q", { silent = true })
 
-  vim.api.nvim_set_keymap("i", "<C-f>", "<Esc>la", { silent = true })
-  vim.api.nvim_set_keymap("i", "<C-b>", "<Esc>ha", { silent = true })
+  -- In-insert cursor movement (C-f / C-b = right / left)
+  vim.keymap.set("i", "<C-f>", "<Esc>la", { silent = true })
+  vim.keymap.set("i", "<C-b>", "<Esc>ha", { silent = true })
 
   -- Yank/delete to black hole register
-  vim.api.nvim_set_keymap("n", "<leader>d", '"_d', { silent = true })
-  vim.api.nvim_set_keymap("n", "<leader>c", '"_c', { silent = true })
-  vim.api.nvim_set_keymap("v", "<leader>d", '"_d', { silent = true })
-  vim.api.nvim_set_keymap("v", "<leader>c", '"_c', { silent = true })
+  vim.keymap.set({ "n", "v" }, "<leader>d", '"_d', { silent = true })
+  vim.keymap.set({ "n", "v" }, "<leader>c", '"_c', { silent = true })
 
   -- Clear search highlighting
-  vim.api.nvim_set_keymap("n", "<ESC>", ":nohlsearch<CR>", { silent = true })
-  -- ... other keymaps
+  vim.keymap.set("n", "<ESC>", ":nohlsearch<CR>", { silent = true })
 end
 
 local function setup_autocmds()
-  vim.cmd("set autoread")
+  vim.opt.autoread = true
 
+  -- Reload files changed outside of neovim
   vim.api.nvim_create_autocmd("CursorHold", {
     pattern = "*",
-    callback = function()
-      vim.cmd("checktime")
-    end,
+    command = "checktime",
   })
 
+  -- Filetype detection for files neovim does not detect by default
   vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
-    pattern = { "*.json", "*.astro", "*.mdx" },
-    callback = function()
-      vim.cmd("setlocal filetype=" .. vim.fn.expand("%:t"))
-    end,
+    pattern = { "*.mdx" },
+    command = "setlocal filetype=markdown",
   })
 
   vim.api.nvim_create_autocmd("User", {
     pattern = "TelescopePreviewerLoaded",
-    callback = function()
-      vim.cmd("setlocal wrap")
-    end,
-  })
-
-  vim.api.nvim_create_autocmd("BufWritePre", {
-    pattern = { "*.tsx", "*.ts", "*.jsx", "*.js" },
-    callback = function()
-      vim.cmd("silent! EslintFixAll")
-    end,
+    command = "setlocal wrap",
   })
 end
 
 local function set_options()
-  vim.cmd("set background=dark")
+  vim.opt.background = "dark"
   vim.cmd("colorscheme tokyonight")
 
-  -- Disable netrw
+  -- Disable netrw (fyler is the file explorer)
   vim.g.loaded_netrw = 1
   vim.g.loaded_netrwPlugin = 1
 end
 
 local function check_user_settings()
-  if vim.fn.filereadable(vim.fn.glob("~/.config/nvim/lua/user-settings.lua")) then
+  local path = vim.fn.glob("~/.config/nvim/lua/user-settings.lua")
+  if vim.fn.filereadable(path) == 1 then
     require("user-settings")
   end
 end
 
 -- Call functions in a logical order
-check_gui_running()
 set_default_shell()
-check_termguicolors()
-load_runtime_files()
 require_modules()
 highlight_matchparen()
 setup_keymaps()

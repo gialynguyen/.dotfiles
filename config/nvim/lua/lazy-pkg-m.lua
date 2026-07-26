@@ -1,6 +1,6 @@
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
 
-if not vim.loop.fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
   vim.fn.system {
     "git",
     "clone",
@@ -18,7 +18,14 @@ local lazy_opts = {
   performance = {
     cache = { enabled = true },
     rtp = {
-      disabled_plugins = {},
+      disabled_plugins = {
+        "netrwPlugin",
+        "tohtml",
+        "gzip",
+        "tarPlugin",
+        "zipPlugin",
+        "tutor",
+      },
     },
   },
   checker = {
@@ -66,6 +73,9 @@ require("lazy").setup({
     "sainnhe/gruvbox-material",
     lazy = false,
     priority = 1000,
+    config = function()
+      vim.g.gruvbox_material_transparent_background = 2
+    end,
   },
 
   {
@@ -360,7 +370,7 @@ require("lazy").setup({
         desc = "Goto/Apply Next Edit Suggestion",
       },
       {
-        "<c-.>",
+        "<leader>ac",
         function()
           require("sidekick.cli").toggle()
         end,
@@ -413,14 +423,6 @@ require("lazy").setup({
         end,
         mode = { "n", "x" },
         desc = "Sidekick Select Prompt",
-      },
-      -- Open Crush directly
-      {
-        "<leader>ac",
-        function()
-          require("sidekick.cli").toggle { name = "crush", focus = true }
-        end,
-        desc = "Sidekick Crush",
       },
     },
   },
@@ -491,6 +493,7 @@ require("lazy").setup({
   {
     "saghen/blink.cmp",
     version = "*",
+    event = { "InsertEnter", "CmdlineEnter" },
     dependencies = {
       "fang2hou/blink-copilot",
       {
@@ -511,39 +514,21 @@ require("lazy").setup({
 
   {
     "A7Lavinraj/fyler.nvim",
+    -- enabled = false,
     dependencies = {
       "nvim-mini/mini.icons",
     },
-    branch = "main", -- Use stable branch for production
+    -- branch = "stable", -- Use stable branch for production
     lazy = false, -- Necessary for `default_explorer` to work properly
     config = function()
       require "plugins-opts.fyler"
     end,
   },
 
-  -- {
-  --   "stevearc/oil.nvim",
-  --   dependencies = { { "echasnovski/mini.icons", opts = {} } },
-  --   config = function()
-  --     require "plugins-opts.oil"
-  --   end,
-  --   lazy = false,
-  -- },
-
-  {
-    "kyazdani42/nvim-tree.lua",
-    config = function()
-      require "plugins-opts.nvim-tree"
-    end,
-    lazy = false,
-    enabled = false,
-  },
-
   {
     "neovim/nvim-lspconfig",
     event = { "BufReadPost", "BufNewFile" },
     dependencies = {
-      "onsails/lspkind-nvim",
       "yioneko/nvim-vtsls",
     },
   },
@@ -563,10 +548,6 @@ require("lazy").setup({
       options = {}, -- if you add plugin options, they go here.
     },
   },
-
-  -- {
-  --   "yioneko/nvim-vtsls",
-  -- },
 
   {
     "williamboman/mason.nvim",
@@ -622,12 +603,11 @@ require("lazy").setup({
   { "akinsho/git-conflict.nvim", version = "*", config = true, lazy = false },
 
   {
-    "tpope/vim-fugitive",
-    cmd = {
-      "G",
-      "Git",
-    },
+    "esmuellert/codediff.nvim",
+    dependencies = { "MunifTanjim/nui.nvim" },
+    cmd = "CodeDiff",
   },
+
   {
     "mfussenegger/nvim-lint",
     event = { "BufReadPost", "BufNewFile" },

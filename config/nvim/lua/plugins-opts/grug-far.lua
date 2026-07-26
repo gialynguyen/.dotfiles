@@ -24,6 +24,6 @@ vim.keymap.set("n", "<leader>fv", function()
   grug_far.with_visual_selection { prefills = { paths = vim.fn.expand "%" } }
 end, { desc = "Grug: Selected" })
 
-vim.keymap.set("n", "<leader>fv", function()
+vim.keymap.set("n", "<leader>fV", function()
   grug_far.with_visual_selection()
 end, { desc = "Grug: Selected Globally" })

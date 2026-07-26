@@ -1,45 +1,50 @@
-require("mason").setup {
+require("mason").setup({
   ui = {
     border = "rounded",
   },
-}
+})
 
-require("mason-lspconfig").setup {
+require("mason-lspconfig").setup({
   automatic_enable = true,
-  ensure_installed = {
-    -- "bashls",
-    -- "clangd",
-    -- "cssls",
-    -- "cssmodules_ls",
-    -- "gopls",
-    -- "html",
-    -- "eslint",
-    -- "tailwindcss",
-    -- "astro",
-    -- "vtsls",
-    -- "lua_ls",
-  },
+  ensure_installed = {},
   automatic_installation = false,
-}
+})
 
-local capabilities = require("blink.cmp").get_lsp_capabilities()
-
-local default_opts = {
-  -- on_attach = function(client, bufnr)
-  --   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
-  -- end,
-  autostart = true,
-  capabilities = capabilities,
-}
-
+-- Build LSP capabilities without loading blink.cmp at startup so that
+-- blink can be lazy-loaded on InsertEnter. These mirror
+-- `vim.lsp.protocol.make_client_capabilities()` plus the fields blink's
+-- `get_lsp_capabilities()` adds, so completion quality is unchanged.
+local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
+capabilities.textDocument.completion.completionItem.documentationFormat = { "markdown", "plaintext" }
+capabilities.textDocument.completion.completionItem.deprecatedSupport = true
+capabilities.textDocument.completion.completionItem.tagSupport = { valueSet = { 1 } }
+capabilities.textDocument.completion.completionItem.insertReplaceSupport = true
+capabilities.textDocument.completion.completionItem.resolveSupport = {
+  properties = { "documentation", "detail", "additionalTextEdits", "command", "data" },
+}
+capabilities.textDocument.completion.completionItem.insertTextModeSupport = { valueSet = { 1 } }
+capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
+capabilities.textDocument.completion.completionList = {
+  itemDefaults = { "commitCharacters", "editRange", "insertTextFormat", "insertTextMode", "data" },
+}
+capabilities.textDocument.completion.contextSupport = true
+capabilities.textDocument.completion.insertTextMode = 1
 capabilities.textDocument.foldingRange = {
   dynamicRegistration = false,
   lineFoldingOnly = true,
 }
 
-local mason_lspconfig = require "mason-lspconfig"
-local lspconfig = require "lspconfig"
+local default_opts = {
+  autostart = true,
+  capabilities = capabilities,
+  inlay_hints = {
+    enabled = false,
+  },
+}
+
+local mason_lspconfig = require("mason-lspconfig")
+local lspconfig = require("lspconfig")
 
 local setup_server = {
   tailwindcss = {
@@ -58,7 +63,6 @@ local setup_server = {
       "typescriptreact",
       "typescript.tsx",
     },
-    single_file_support = true,
     settings = {
       complete_function_calls = true,
       vtsls = {
@@ -85,14 +89,6 @@ local setup_server = {
         },
       },
     },
-    -- on_attach = function(client, bufnr)
-    --   vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
-    --
-    --   -- You can also define keybindings here
-    --   local opts = { noremap = true, silent = true }
-    --   vim.api.nvim_buf_set_keymap(bufnr, "n", ",vs", "<cmd>VtsExec source_actions<CR>", opts)
-    -- end,
-
     capabilities = capabilities,
   },
   cssmodules_ls = {
@@ -108,12 +104,11 @@ local setup_server = {
   },
   eslint = {
     handlers = {
-      ["window/showMessageRequest"] = function(_, result, params)
+      ["window/showMessageRequest"] = function(_, result, _)
         return result
       end,
     },
     settings = {
-      -- helps eslint find the eslintrc when it's placed in a subfolder instead of the cwd root
       workingDirectories = { mode = "auto" },
       validate = "on",
       format = true,
@@ -132,35 +127,22 @@ local setup_server = {
       },
     },
   },
-  -- svelte = {
-  --   on_attach = function(client, bufnr)
-  --     vim.api.nvim_create_autocmd("BufWritePost", {
-  --       pattern = { "*.js", "*.ts" },
-  --       group = vim.api.nvim_create_augroup("svelte_ondidchangetsorjsfile", { clear = true }),
-  --       callback = function(ctx)
-  --         -- Here use ctx.match instead of ctx.file
-  --         client.notify("$/onDidChangeTsOrJsFile", { uri = ctx.match })
-  --       end,
-  --     })
-  --     vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
-  --   end,
-  -- },
 }
+
 for _, server_name in ipairs(mason_lspconfig.get_installed_servers()) do
   local opts = vim.tbl_deep_extend("force", default_opts, setup_server[server_name] or {})
-
   vim.lsp.config(server_name, opts)
 end
 
-vim.diagnostic.config {
+vim.diagnostic.config({
   update_in_insert = false,
   virtual_text = false,
   signs = {
     text = {
-      [vim.diagnostic.severity.ERROR] = "",
-      [vim.diagnostic.severity.WARN] = "",
-      [vim.diagnostic.severity.INFO] = "",
-      [vim.diagnostic.severity.HINT] = "󰌵",
+      [vim.diagnostic.severity.ERROR] = "\u{f057}",
+      [vim.diagnostic.severity.WARN] = "\u{f071}",
+      [vim.diagnostic.severity.INFO] = "\u{f05a}",
+      [vim.diagnostic.severity.HINT] = "\u{f0339}",
     },
   },
   virtual_lines = false,
@@ -171,11 +153,14 @@ vim.diagnostic.config {
     focusable = false,
   },
   severity_sort = true,
-}
+})
 
+-- Silence the noisy textDocument/diagnostic failed LSP error notifications
 vim.notify = function(msg, log_level, _)
-  if log_level == vim.log.levels.ERROR and msg:match "textDocument/diagnostic failed" then
+  if log_level == vim.log.levels.ERROR and type(msg) == "string" and msg:match("textDocument/diagnostic failed") then
     return
   end
   print(msg)
 end
+
+vim.lsp.log.set_level("off")

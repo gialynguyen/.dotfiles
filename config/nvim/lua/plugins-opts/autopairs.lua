@@ -56,18 +56,4 @@ autopairs.add_rules {
   Rule("$", "$", "lua"):with_pair(ts_conds.is_not_ts_node { "function" }),
 }
 
-pcall(function()
-  local cmp_autopairs = require "nvim-autopairs.completion.cmp"
-  local ts_utils = require "nvim-treesitter.ts_utils"
-
-  require("cmp").event:on("confirm_done", function(evt)
-    if ts_utils.get_node_at_cursor() == nil then
-      return
-    end
-
-    local name = ts_utils.get_node_at_cursor():type()
-    if name ~= "named_imports" then
-      cmp_autopairs.on_confirm_done()(evt)
-    end
-  end)
-end)
+-- blink.cmp provides bracket insertion on accept via `completion.accept.auto_brackets`.
