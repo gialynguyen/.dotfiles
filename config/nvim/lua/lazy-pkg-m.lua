@@ -524,9 +524,6 @@ require("lazy").setup({
   {
     "neovim/nvim-lspconfig",
     event = { "BufReadPost", "BufNewFile" },
-    dependencies = {
-      "yioneko/nvim-vtsls",
-    },
   },
 
   {
