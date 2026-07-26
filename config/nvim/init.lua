@@ -23,12 +23,29 @@ local function highlight_matchparen()
   })
 end
 
-local function setup_keymaps()
-  -- Leader + gt to open lazygit
-  vim.keymap.set({ "n", "i" }, "<leader>gt", ":FloatermNew --title=lazy-git lazygit<CR>", { silent = true })
+local function float_term(cmd)
+  local Terminal = require("toggleterm.terminal").Terminal
+  return Terminal:new({ cmd = cmd, direction = "float", hidden = true, float_opts = { border = "rounded" } })
+end
 
-  -- Leader + sr to open serpl
-  vim.keymap.set({ "n", "i" }, "<leader>sr", ":FloatermNew --title=search-&-replace serpl<CR>", { silent = true })
+-- Persistent floating terminals via toggleterm (replaces vim-floaterm)
+local function toggle_persistent_float(state_key, cmd)
+  if _G[state_key] == nil then
+    _G[state_key] = float_term(cmd)
+  end
+  _G[state_key]:toggle()
+end
+
+local function setup_keymaps()
+  -- Leader + gt to open lazygit (persistent floating toggleterm)
+  vim.keymap.set({ "n", "i" }, "<leader>gt", function()
+    toggle_persistent_float("_lazygit_term", "lazygit")
+  end, { silent = true, desc = "lazygit (float)" })
+
+  -- Leader + sr to open serpl (search & replace)
+  vim.keymap.set({ "n", "i" }, "<leader>sr", function()
+    toggle_persistent_float("_serpl_term", "serpl")
+  end, { silent = true, desc = "serpl (float)" })
 
   -- ToggleTermToggleAll mappings (normal and insert mode)
   vim.keymap.set("t", "<C-\\>", "<C-e>:ToggleTermToggleAll<CR>", { silent = true })

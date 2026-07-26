@@ -1,9 +1,9 @@
 local bufferline = require "bufferline"
 
 local close_func = function(bufnum)
-  local bufdelete_avail, bufdelete = pcall(require, "bufdelete")
-  if bufdelete_avail then
-    bufdelete.bufdelete(bufnum, true)
+  local ok, bufremove = pcall(require, "mini.bufremove")
+  if ok then
+    bufremove.delete(bufnum, true)
   else
     vim.api.nvim_buf_delete(bufnum, { force = true })
   end

@@ -92,55 +92,56 @@ end
 
 vim.cmd("autocmd! TermOpen term://* lua set_terminal_keymaps()")
 
--- Buffers Keymap
-local function refresh_bufferline()
-  local ok, bufferline = pcall(require, "bufferline.ui")
-  if ok and bufferline and bufferline.refresh then
-    vim.schedule(function()
-      pcall(bufferline.refresh)
-    end)
+-- Buffers Keymap (bufferline provides cycle + goto-by-index; mini.bufremove
+-- deletes buffers. Replaces the stale vim-bufsurf + nvim-smartbufs plugins.)
+local function ensure_bufferline()
+  pcall(require, "bufferline")
+end
+
+local function buf_remove(buf, force)
+  local ok, bufremove = pcall(require, "mini.bufremove")
+  if ok then
+    pcall(bufremove.delete, buf, force)
+  else
+    pcall(vim.cmd, "bdelete " .. buf)
   end
 end
 
 local goBackBuffer = function()
-  vim.cmd("silent BufSurfBack")
-  vim.cmd([[execute "normal! g`\"zz"]])
-  refresh_bufferline()
+  ensure_bufferline()
+  vim.cmd("BufferLineCyclePrev")
+  pcall(vim.cmd, [[execute "normal! g`"zz"]])
 end
 
 local goForwardBuffer = function()
-  vim.cmd("silent BufSurfForward")
-  vim.cmd([[execute "normal! g`\"zz"]])
-  refresh_bufferline()
+  ensure_bufferline()
+  vim.cmd("BufferLineCycleNext")
+  pcall(vim.cmd, [[execute "normal! g`"zz"]])
 end
 
 local goBackAndCloseCurrentBuf = function()
   local buf_id = vim.api.nvim_get_current_buf()
   goBackBuffer()
-  vim.cmd(string.format("bdelete%d", buf_id))
+  buf_remove(buf_id, true)
 end
 
 local closeHiddenBuffers = function()
-  local buffers = vim.api.nvim_list_bufs()
-  local non_hidden_buffer = {}
-
+  local non_hidden = {}
   for _, win in ipairs(vim.api.nvim_list_wins()) do
-    non_hidden_buffer[vim.api.nvim_win_get_buf(win)] = true
+    non_hidden[vim.api.nvim_win_get_buf(win)] = true
   end
-
-  for _, buffer in ipairs(buffers) do
+  for _, buffer in ipairs(vim.api.nvim_list_bufs()) do
     local bo = vim.bo[buffer]
     if
       vim.api.nvim_buf_is_valid(buffer)
       and bo.buflisted
       and not bo.modified
-      and non_hidden_buffer[buffer] == nil
+      and non_hidden[buffer] == nil
       and bo.buftype ~= "terminal"
     then
-      vim.cmd.bdelete({ count = buffer })
+      buf_remove(buffer, false)
     end
   end
-  refresh_bufferline()
 end
 
 vim.keymap.set("n", "<Leader>w", closeHiddenBuffers)
@@ -153,12 +154,16 @@ vim.keymap.set("n", ",x", "<cmd>bp<CR><cmd>bd #<CR><cmd>q<CR>")
 vim.keymap.set("n", ",[", "<cmd>bprevious<CR>")
 vim.keymap.set("n", ",]", "<cmd>bnext<CR>")
 
+-- Go to / close the buffer shown at bufferline tab `index`
 _G.GotoBuffer = function(index)
-  require("nvim-smartbufs").goto_buffer(index)
+  ensure_bufferline()
+  vim.cmd("BufferLineGoToBuffer " .. index)
 end
 
 _G.CloseBuffer = function(index)
-  require("nvim-smartbufs").close_buffer(index)
+  ensure_bufferline()
+  vim.cmd("BufferLineGoToBuffer " .. index)
+  vim.schedule(function() buf_remove(0, false) end)
 end
 
 vim.api.nvim_create_user_command("CloseBuffer", function(opts)

@@ -94,33 +94,7 @@ require("lazy").setup({
   },
 
   {
-    "navarasu/onedark.nvim",
-    lazy = false,
-    priority = 1000,
-  },
-
-  {
-    "rose-pine/neovim",
-    lazy = false,
-    priority = 1000,
-    name = "rose-pine",
-  },
-
-  {
     "folke/tokyonight.nvim",
-    lazy = false,
-    priority = 1000,
-  },
-
-  {
-    "catppuccin/nvim",
-    lazy = false,
-    name = "catppuccin",
-    priority = 1000,
-  },
-
-  {
-    "EdenEast/nightfox.nvim",
     lazy = false,
     priority = 1000,
   },
@@ -220,8 +194,19 @@ require("lazy").setup({
   },
 
   {
-    "machakann/vim-sandwich",
+    "echasnovski/mini.surround",
+    version = false,
     event = "BufReadPost",
+    opts = {
+      mappings = {
+        add = "sa", delete = "sd", replace = "sr",
+        find = "sf", find_left = "sF", highlight = "sh",
+        update_n_lines = "sn",
+      },
+    },
+    config = function(_, opts)
+      require("mini.surround").setup(opts)
+    end,
   },
 
   {
@@ -636,21 +621,12 @@ require("lazy").setup({
   },
 
   {
-    "voldikss/vim-floaterm",
-    init = function()
-      require "plugins-opts.floaterm"
-    end,
-    -- lazy = false,
-    event = "VeryLazy",
-  },
-
-  {
     "akinsho/bufferline.nvim",
     config = function()
       require "plugins-opts.bufferline"
     end,
     dependencies = {
-      "famiu/bufdelete.nvim",
+      "echasnovski/mini.bufremove",
       "echasnovski/mini.icons",
     },
     event = { "BufReadPost" },
@@ -694,20 +670,6 @@ require("lazy").setup({
       require "plugins-opts.zen-mode"
     end,
     cmd = "ZenMode",
-  },
-
-  {
-    "johann2357/nvim-smartbufs",
-    event = "BufReadPost",
-  },
-
-  {
-    "ton/vim-bufsurf",
-    event = "BufReadPost",
-  },
-
-  {
-    "famiu/bufdelete.nvim",
   },
 
   {
