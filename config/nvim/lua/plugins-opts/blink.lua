@@ -62,9 +62,6 @@ require("blink.cmp").setup {
           kind_icon = {
             ellipsis = false,
             text = function(ctx)
-              if ctx.kind == "Copilot" then
-                return ""
-              end
               local kind_icon, _, _ = require("mini.icons").get("lsp", ctx.kind)
               return kind_icon
             end,
@@ -87,14 +84,7 @@ require("blink.cmp").setup {
   signature = { enabled = true, window = { border = "single" } },
 
   sources = {
-    default = { "lsp", "snippets", "path", "buffer", "copilot" },
-    providers = {
-      copilot = {
-        name = "copilot",
-        module = "blink-copilot",
-        score_offset = 100,
-        async = true,
-      },
-    },
+    default = { "lsp", "snippets", "path", "buffer" },
+    providers = {},
   },
 }

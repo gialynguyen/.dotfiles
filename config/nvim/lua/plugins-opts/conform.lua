@@ -3,47 +3,29 @@ local conform = require "conform"
 -- State management for disabling/enabling formatting
 local is_format_disabled = 0
 
-local disable_format = function()
-  is_format_disabled = 1
-end
-
-local enable_format = function()
-  is_format_disabled = 0
-end
-
--- Create user commands for toggling formatting
-vim.api.nvim_create_user_command("FormatDisable", disable_format, {})
-vim.api.nvim_create_user_command("FormatEnable", enable_format, {})
-
 conform.setup {
-  default_format_opts = { lsp_format = "fallback" },
+  default_format_opts = { lsp_format = "prefer" },
   formatters_by_ft = {
-    -- Lua
+    -- Filetypes with NO LSP formatter in this config. Because
+    -- `default_format_opts.lsp_format = "prefer"`, LSP formatting still wins
+    -- where an LSP formatter exists; these only fill the gaps.
     lua = { "stylua" },
-
-    -- Go
-    go = { "gofmt" },
-
-    -- Python
-    python = { "ruff_fix", "ruff_format", "ruff_organize_imports" },
-
-    -- JavaScript/TypeScript
-    javascript = { "oxfmt", "prettier" },
-    typescript = { "oxfmt", "prettier" },
-    javascriptreact = { "oxfmt", "prettier" },
-    typescriptreact = { "oxfmt", "prettier" },
-    svelte = { "prettier" },
-    vue = { "prettier" },
-    json = { "prettier" },
-    jsonc = { "prettier" },
+    python = { "ruff_format", "ruff_organize_imports" },
+    sh = { "shfmt" },
     yaml = { "prettier" },
     markdown = { "prettier" },
-    html = { "prettier" },
 
-    -- CSS/SCSS with stylelint (conditional)
-    css = { "stylelint", "prettier" },
-    scss = { "stylelint", "prettier" },
-    less = { "stylelint", "prettier" },
+    -- JS/TS/CSS/HTML/JSON are handled by LSP (vtsls/eslint/cssls/html/jsonls);
+    -- leave them to the LSP formatter. Enable prettier for them here if desired.
+    -- javascript = { "prettier" },
+    -- typescript = { "prettier" },
+    -- typescriptreact = { "prettier" },
+    -- javascriptreact = { "prettier" },
+    -- json = { "prettier" },
+    -- jsonc = { "prettier" },
+    -- html = { "prettier" },
+    -- css = { "prettier" },
+    -- scss = { "prettier" },
   },
 
   -- Customize stylelint formatter to only run when config files exist
@@ -115,7 +97,8 @@ vim.api.nvim_create_user_command("Format", function(args)
       ["end"] = { args.line2, end_line:len() },
     }
   end
-  conform.format { async = true, lsp_format = "fallback", range = range }
+
+  conform.format { async = false, range = range }
 end, { range = true })
 
 local function organize_imports()
@@ -139,19 +122,38 @@ vim.api.nvim_create_autocmd("BufWritePre", {
       return
     end
 
+
+    -- local filetype = vim.bo[args.buf].filetype
+    --
+    -- if
+    --   filetype == "typescript"
+    --   or filetype == "typescriptreact"
+    --   or filetype == "javascript"
+    --   or filetype == "javascriptreact"
+    -- then
+    --   organize_imports()
+    -- end
+
     conform.format {
       bufnr = args.buf,
       async = false,
       quiet = false,
-      lsp_format = "first",
-      timeout_ms = 500,
-      filter = function(client)
-        return client.name == "eslint"
-      end,
+      timeout_ms = 2000,
+      -- filter = function(client)
+      --   return client.name == "eslint"
+      -- end,
     }
-
-    if vim.bo[args.buf].filetype == "typescript" or vim.bo[args.buf].filetype == "typescriptreact" then
-      organize_imports()
-    end
   end,
 })
+
+local disable_format = function()
+  is_format_disabled = 1
+end
+
+local enable_format = function()
+  is_format_disabled = 0
+end
+
+-- Create user commands for toggling formatting
+vim.api.nvim_create_user_command("FormatDisable", disable_format, {})
+vim.api.nvim_create_user_command("FormatEnable", enable_format, {})
