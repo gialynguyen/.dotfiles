@@ -63,7 +63,11 @@ require("neo-tree").setup({
   },
 })
 
--- Explorer keymaps (mirrors the old fyler keymaps)
-vim.keymap.set("n", "<c-l>", "<cmd>Neotree toggle<cr>", { desc = "Toggle file tree sidebar" })
-vim.keymap.set("n", "<c-k>", "<cmd>Neotree focus<cr>", { desc = "Focus/open file tree" })
+-- Explorer keymaps (mirrors the old fyler keymaps).
+-- Always pin the sidebar actions to the LEFT position: `:Neotree` without an
+-- explicit position reuses the *last-used* position, so after opening the
+-- float (`<c-g>`) a bare `:Neotree focus`/`toggle` would wrongly reopen the
+-- float. Specifying `left` forces the sidebar.
+vim.keymap.set("n", "<c-l>", "<cmd>Neotree toggle left<cr>", { desc = "Toggle file tree sidebar (left)" })
+vim.keymap.set("n", "<c-k>", "<cmd>Neotree focus left<cr>", { desc = "Focus/open file tree (left)" })
 vim.keymap.set("n", "<c-g>", "<cmd>Neotree float<cr>", { desc = "Open file tree (float)" })
