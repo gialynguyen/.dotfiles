@@ -1,0 +1,10 @@
+# macOS noise
+.DS_Store
+
+# nvim runtime / machine-local state (mirrors old config/nvim/.gitignore)
+.config/nvim/.pi
+.config/nvim/.crush
+.config/nvim/plugin
+.config/nvim/setup/node_modules
+.config/nvim/lazy-lock.json
+.config/nvim/**/user-settings.lua

@@ -1,0 +1,7 @@
+/plugin
+
+./setup/node_modules
+
+**/**/user-settings.lua
+
+lazy-lock.json
