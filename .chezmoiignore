@@ -1,3 +1,6 @@
+# repo docs (keep in git, don't apply to $HOME)
+README.md
+
 # macOS noise
 .DS_Store
 
