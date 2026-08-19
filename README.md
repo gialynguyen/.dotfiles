@@ -11,7 +11,7 @@ macOS app configs, managed with [chezmoi](https://www.chezmoi.io).
 | `~/.config/alacritty` | Alacritty terminal |
 | `~/.config/aerospace` | AeroSpace window manager |
 | `~/.config/starship.toml` | Starship prompt |
-| `~/.config/herdr/config.toml` | Herdr (terminal workspace manager) |
+| `~/.config/herdr/` | Herdr (terminal workspace manager: `config.toml`, `plugins.json` plugin registry) |
 | `~/.pi/agent/` | Pi coding agent (settings, keybindings, zentui, custom agents/prompts/skills, authored extensions) |
 
 Runtime/machine-local state is excluded via `.chezmoiignore`:
