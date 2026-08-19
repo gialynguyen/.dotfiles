@@ -1,0 +1,10 @@
+{
+  "toolVisibility": "always",
+  "experimental": {
+    "goals": false
+  },
+  "continuationLimits": {
+    "automaticTurns": 25,
+    "noProgressTurns": 3
+  }
+}

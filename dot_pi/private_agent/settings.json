@@ -1,0 +1,137 @@
+{
+  "lastChangelogVersion": "0.84.2",
+  "defaultProvider": "ollama-cloud",
+  "defaultModel": "glm-5.2",
+  "defaultThinkingLevel": "xhigh",
+  "packages": [
+    "npm:@aaronkyriesenbach/pi-package-manager",
+    "npm:pi-ollama-cloud",
+    "npm:pi-mcp-adapter",
+    "npm:pi-claude-auth",
+    "npm:pi-web-access",
+    "npm:pi-atelier",
+    "npm:@agnishc/edb-diff-files",
+    "npm:@guneriu/pi-files",
+    "npm:@tintinweb/pi-subagents",
+    {
+      "source": "npm:pi-autocomplete-overlay",
+      "extensions": [],
+      "skills": [],
+      "prompts": [],
+      "themes": []
+    },
+    "npm:@plannotator/pi-extension",
+    "npm:pi-tool-display",
+    "npm:pi-zentui",
+    "npm:@juicesharp/rpiv-todo",
+    {
+      "source": "npm:@howaboua/pi-ask",
+      "extensions": [],
+      "skills": [],
+      "prompts": [],
+      "themes": []
+    },
+    "npm:pi-cursor-sdk",
+    "npm:pi-ask-herdr",
+    "npm:pi-context-view",
+    "npm:@dietrichgebert/ponytail"
+  ],
+  "theme": "dark",
+  "hideThinkingBlock": false,
+  "warnings": {
+    "anthropicExtraUsage": false
+  },
+  "subagents": {
+    "defaultModel": "ollama-cloud/deepseek-v4-flash:0731",
+    "defaultThinking": "medium",
+    "agentOverrides": {
+      "fusion-agent": {
+        "model": "clinepass/cline-pass/kimi-k3",
+        "thinking": "max"
+      },
+      "scout": {
+        "model": "ollama-cloud/deepseek-v4-flash:0731",
+        "thinking": "max"
+      },
+      "researcher": {
+        "model": "anthropic/claude-sonnet-5",
+        "thinking": "high"
+      },
+      "worker": {
+        "model": "opencode-go/gpt-5.6-luna",
+        "thinking": "high"
+      },
+      "reviewer": {
+        "model": "anthropic/claude-opus-5",
+        "thinking": "high"
+      },
+      "delegate": {
+        "model": "clinepass/cline-pass/kimi-k3",
+        "thinking": "max"
+      },
+      "oracle": {
+        "model": "anthropic/claude-opus-5",
+        "thinking": "max"
+      },
+      "advisor": {
+        "model": "anthropic/claude-opus-5",
+        "thinking": "max"
+      },
+      "design": {
+        "model": "cursor/kimi-k3",
+        "thinking": "max"
+      }
+    }
+  },
+  "images": {
+    "blockImages": true,
+    "autoResize": false
+  },
+  "extensions": [],
+  "alps-pi": {
+    "chromeFrame": {
+      "enabled": true,
+      "assistantFrame": true,
+      "toolCompactMode": true,
+      "compactEditTool": false
+    },
+    "fixedBottomEditor": {
+      "enabled": true
+    },
+    "beautifiedInput": {
+      "enabled": true
+    },
+    "animations": {
+      "enabled": true,
+      "randomMode": false,
+      "working": "crush",
+      "thinking": "shimmer",
+      "tool": "pipeline",
+      "width": "default",
+      "fps": 16
+    },
+    "shortcuts": {
+      "stashEditor": "alt+s",
+      "copyEditor": "ctrl+alt+c",
+      "cutEditor": "ctrl+alt+x",
+      "scrollChatUp": "super+up",
+      "scrollChatDown": "super+down",
+      "editorStart": "super+shift+up",
+      "editorEnd": "super+shift+down",
+      "jumpPreviousUserMessage": "ctrl+shift+u",
+      "jumpNextUserMessage": "ctrl+shift+i",
+      "jumpPreviousAssistantMessage": "ctrl+alt+,",
+      "jumpNextAssistantMessage": "ctrl+alt+.",
+      "jumpChatBottom": "ctrl+shift+g"
+    }
+  },
+  "tuiMode": "fullscreen",
+  "fullscreenScrollbar": "auto",
+  "markdown": {
+    "mermaid": "final"
+  },
+  "fullscreenExitOutput": "transcript",
+  "compaction": {
+    "enabled": true
+  }
+}

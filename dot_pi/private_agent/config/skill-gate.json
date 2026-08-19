@@ -1,0 +1,13 @@
+{
+  "skills": {
+    "ask-user": "enabled",
+    "pi-subagents": "enabled",
+    "release-flow": "enabled",
+    "widget-integration": "enabled",
+    "widget-integration-tae": "enabled",
+    "mcp-scripting": "enabled",
+    "research": "enabled",
+    "slack": "enabled"
+  },
+  "projects": {}
+}

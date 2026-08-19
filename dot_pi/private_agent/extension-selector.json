@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "activeProfile": "default",
+  "profiles": {
+    "default": {
+      "enabled": [
+        "package:npm:pi-extmgr",
+        "package:npm:pi-ollama-cloud",
+        "package:npm:pi-clinepass-provider",
+        "package:npm:pi-mcp-adapter",
+        "package:npm:pi-claude-auth",
+        "package:npm:pi-cursor-sdk",
+        "package:npm:pi-ask-user",
+        "package:npm:pi-input-history",
+        "package:npm:pi-web-access",
+        "package:npm:@tintinweb/pi-tasks",
+        "package:npm:pi-atelier",
+        "package:npm:@agnishc/edb-diff-files",
+        "package:npm:@guneriu/pi-files",
+        "package:npm:pine-of-glass",
+        "package:npm:@tintinweb/pi-subagents",
+        "package:npm:pi-autocomplete-overlay"
+      ]
+    }
+  },
+  "managedPaths": [],
+  "packageDefaults": {
+    "npm:pi-ollama-cloud": "npm:pi-ollama-cloud",
+    "npm:pi-clinepass-provider": "npm:pi-clinepass-provider",
+    "npm:pi-subagents": "npm:pi-subagents",
+    "npm:pi-mcp-adapter": "npm:pi-mcp-adapter",
+    "npm:pi-claude-auth": "npm:pi-claude-auth",
+    "npm:pi-cursor-sdk": "npm:pi-cursor-sdk",
+    "npm:pi-ask-user": "npm:pi-ask-user",
+    "npm:pi-input-history": "npm:pi-input-history",
+    "npm:pi-web-access": "npm:pi-web-access",
+    "npm:@tintinweb/pi-tasks": "npm:@tintinweb/pi-tasks",
+    "npm:pi-atelier": "npm:pi-atelier",
+    "npm:@agnishc/edb-diff-files": "npm:@agnishc/edb-diff-files",
+    "npm:@guneriu/pi-files": "npm:@guneriu/pi-files",
+    "npm:pine-of-glass": "npm:pine-of-glass",
+    "npm:@tintinweb/pi-subagents": "npm:@tintinweb/pi-subagents",
+    "npm:pi-autocomplete-overlay": "npm:pi-autocomplete-overlay",
+    "npm:pi-extmgr": "npm:pi-extmgr"
+  }
+}

@@ -4,6 +4,10 @@ README.md
 # macOS noise
 .DS_Store
 
+# general hygiene
+**/node_modules
+**/*.bak
+
 # nvim runtime / machine-local state (mirrors old config/nvim/.gitignore)
 .config/nvim/.pi
 .config/nvim/.crush
@@ -11,3 +15,32 @@ README.md
 .config/nvim/setup/node_modules
 .config/nvim/lazy-lock.json
 .config/nvim/**/user-settings.lua
+
+# pi agent SECRETS — never manage (re-auth per machine via pi login)
+.pi/agent/auth.json
+
+# pi agent runtime / caches / installed projects (not config)
+.pi/agent/sessions
+.pi/agent/input-history
+.pi/agent/run-history.jsonl
+.pi/agent/cache
+.pi/agent/extension-data
+.pi/agent/extension-pool
+.pi/agent/npm
+.pi/agent/.extmgr-cache
+.pi/agent/cursor-models-cache.json
+.pi/agent/cursor-sdk-model-list.json
+.pi/agent/cursor-sdk-context-windows.json
+.pi/agent/models-store.json
+.pi/agent/mcp-cache.json
+.pi/agent/pi-web-update-check.json
+.pi/agent/auto-update.json
+.pi/agent/subagent-profiles
+.pi/agent/pi-atelier.json
+.pi/agent/extensions/input-history
+.pi/agent/extensions/pi-clinepass-provider
+.pi/agent/extensions/pi-subagent-profiles
+.pi/tasks
+.pi/web-search-cache
+.pi/folder-history
+.pi/subagent-profiles.json
