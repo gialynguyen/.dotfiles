@@ -7,6 +7,7 @@ README.md
 # general hygiene
 **/node_modules
 **/*.bak
+**/.git
 
 # nvim runtime / machine-local state (mirrors old config/nvim/.gitignore)
 .config/nvim/.pi
@@ -37,9 +38,8 @@ README.md
 .pi/agent/auto-update.json
 .pi/agent/subagent-profiles
 .pi/agent/pi-atelier.json
-.pi/agent/extensions/input-history
-.pi/agent/extensions/pi-clinepass-provider
-.pi/agent/extensions/pi-subagent-profiles
+# own/dev-checkout extension dirs are tracked (not ignored); .git + node_modules
+# excluded globally above. See README for the own-vs-external rule (packages field).
 .pi/tasks
 .pi/web-search-cache
 .pi/folder-history

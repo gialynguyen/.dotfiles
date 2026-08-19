@@ -1,0 +1,93 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      run_e2e:
+        description: "Run E2E smoke tests (requires API key secret)"
+        required: false
+        default: "false"
+        type: boolean
+
+jobs:
+  # ── Unit Tests (matrix: pi-version × Node version) ────────────────────────
+  test:
+    name: Tests (${{ matrix.label }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Latest compatible version from lockfile, Node 22 (minimum supported)
+          - pi-version: ""
+            node-version: "22"
+            label: "latest / Node 22"
+          # Minimum supported peer dep version — catches contract drift
+          # if our code starts using APIs only available in newer pi releases
+          - pi-version: "0.80.2"
+            node-version: "22"
+            label: "min-pi-0.80.2 / Node 22"
+          # Latest pi version on Node 24 — catches Node version regressions
+          - pi-version: ""
+            node-version: "24"
+            label: "latest / Node 24"
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Pin minimum pi version
+        if: matrix.pi-version != ''
+        run: npm install --no-save @earendil-works/pi-ai@${{ matrix.pi-version }} @earendil-works/pi-coding-agent@${{ matrix.pi-version }}
+
+      # Lint and format checks only need to run once (on the canonical
+      # latest + Node 22 variant; they don't depend on pi or Node version)
+      - name: Lint
+        if: matrix.pi-version == '' && matrix.node-version == '22'
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Check formatting
+        if: matrix.pi-version == '' && matrix.node-version == '22'
+        run: npm run format:check
+
+      - name: Run unit tests
+        run: npm test
+
+  # ── E2E Smoke Tests ────────────────────────────────────────────────────────
+  e2e:
+    name: E2E Smoke Tests
+    runs-on: ubuntu-latest
+    if: ${{ github.event.inputs.run_e2e == 'true' }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install pi
+        run: npm install -g @earendil-works/pi-coding-agent
+
+      - name: Run E2E smoke tests
+        env:
+          CLINE_API_KEY: ${{ secrets.CLINE_API_KEY }}
+        run: bash tests/e2e/smoke.sh

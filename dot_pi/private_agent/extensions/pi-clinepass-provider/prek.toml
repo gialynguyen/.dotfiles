@@ -1,0 +1,29 @@
+[[repos]]
+repo = "builtin"
+hooks = [
+  { id = "trailing-whitespace" },
+  { id = "end-of-file-fixer" },
+  { id = "check-added-large-files" },
+  { id = "check-json" },
+  { id = "check-toml" },
+  { id = "check-yaml" },
+]
+
+[[repos]]
+repo = "local"
+
+[[repos.hooks]]
+id = "oxlint"
+name = "oxlint"
+language = "system"
+entry = "oxlint"
+types_or = ["javascript", "jsx", "ts", "tsx"]
+args = ["--config", ".oxlintrc.json"]
+
+[[repos.hooks]]
+id = "oxfmt"
+name = "oxfmt"
+language = "system"
+entry = "oxfmt"
+types_or = ["javascript", "jsx", "ts", "tsx", "json", "markdown", "yaml"]
+args = ["--check"]
