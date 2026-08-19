@@ -49,15 +49,9 @@ telescope.setup {
       override_file_sorter = true,    -- override the file sorter
       case_mode = "smart_case",       -- or "ignore_case" or "respect_case"
     },
-    live_grep_raw = {
-      vimgrep_argument = {
-        "rg",
-      },
-    },
   },
 }
 
 -- telescope.load_extension "ui-select"
 telescope.load_extension "fzf"
-telescope.load_extension "live_grep_args"
 telescope.load_extension "file_browser"

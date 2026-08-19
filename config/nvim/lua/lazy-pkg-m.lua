@@ -185,11 +185,11 @@ require("lazy").setup({
     end,
     -- stylua: ignore
     keys = {
-      { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
-      { "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
-      { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
-      { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
-      { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+      { "s",     mode = { "n", "x", "o" }, function() require("flash").jump() end,              desc = "Flash" },
+      { "S",     mode = { "n", "x", "o" }, function() require("flash").treesitter() end,        desc = "Flash Treesitter" },
+      { "r",     mode = "o",               function() require("flash").remote() end,            desc = "Remote Flash" },
+      { "R",     mode = { "o", "x" },      function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+      { "<c-s>", mode = { "c" },           function() require("flash").toggle() end,            desc = "Toggle Flash Search" },
     },
   },
 
@@ -199,8 +199,12 @@ require("lazy").setup({
     event = "BufReadPost",
     opts = {
       mappings = {
-        add = "sa", delete = "sd", replace = "sr",
-        find = "sf", find_left = "sF", highlight = "sh",
+        add = "sa",
+        delete = "sd",
+        replace = "sr",
+        find = "sf",
+        find_left = "sF",
+        highlight = "sh",
         update_n_lines = "sn",
       },
     },
@@ -259,11 +263,21 @@ require("lazy").setup({
       require "plugins-opts.telescope"
     end,
     dependencies = {
-      "nvim-telescope/telescope-live-grep-args.nvim",
       "nvim-telescope/telescope-file-browser.nvim",
       { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
     },
     event = "VeryLazy",
+  },
+
+  {
+    "dmtrKovalenko/fff.nvim",
+    build = function()
+      require("fff.download").download_or_build_binary()
+    end,
+    lazy = false,
+    config = function()
+      require "plugins-opts.fff"
+    end,
   },
 
   {
@@ -693,5 +707,6 @@ require("lazy").setup({
       "kevinhwang91/promise-async",
     },
     event = "VeryLazy",
+    enabled = false,
   },
 }, lazy_opts)

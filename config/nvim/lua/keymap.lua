@@ -4,15 +4,19 @@ local function tb()
   return require("telescope.builtin")
 end
 
+local function fff()
+  return require("fff")
+end
+
 vim.keymap.set("n", ",tt", "<cmd>Telescope<CR>")
-vim.keymap.set("n", ",ff", function() tb().find_files() end)
-vim.keymap.set("n", ",fd", function() tb().find_files({ hidden = true }) end)
+vim.keymap.set("n", ",ff", function() fff().find_files() end)
+vim.keymap.set("n", ",fd", function() fff().find_files() end)
 vim.keymap.set("n", ",gs", function() tb().git_status() end)
 vim.keymap.set("n", ",gf", function() tb().git_files() end)
 vim.keymap.set("n", ",ts", function() tb().treesitter() end)
 vim.keymap.set("n", ",ws", function() tb().lsp_dynamic_workspace_symbols() end)
 vim.keymap.set("n", ",b", function() tb().buffers() end)
-vim.keymap.set("n", ",rg", function() require("telescope").extensions.live_grep_args.live_grep_args() end)
+vim.keymap.set("n", ",rg", function() fff().live_grep() end)
 vim.keymap.set("n", ",rr", function() tb().resume() end)
 vim.keymap.set("n", ",re", function() tb().oldfiles({ only_cwd = true }) end)
 

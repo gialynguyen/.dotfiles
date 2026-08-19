@@ -2,3 +2,6 @@
 *.log
 *.swp
 *~
+
+# runtime state leaked via old symlinks
+config/nvim/.pi/
