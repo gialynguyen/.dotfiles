@@ -16,7 +16,7 @@ macOS app configs, managed with [chezmoi](https://www.chezmoi.io).
 
 Runtime/machine-local state is excluded via `.chezmoiignore`:
 - nvim: `.pi/`, `.crush/`, `plugin/`, `setup/node_modules/`, `lazy-lock.json`, `**/user-settings.lua`
-- pi agent: `auth.json` (secrets — re-auth per machine via `pi login`), `sessions/`, `input-history/` (the runtime dir `~/.pi/agent/input-history`, **not** the tracked `extensions/input-history/`), `run-history.jsonl`, caches (`models-store.json`, `cursor-*-cache.json`, `mcp-cache.json`), `npm/`
+- pi agent: `auth.json` (secrets — re-auth per machine via `pi login`), `sessions/`, `input-history/` (the runtime dir `~/.pi/agent/input-history`, **not** the tracked `extensions/input-history/`), `run-history.jsonl`, `skill-gate-analytics.json` (self-incrementing runtime counter), caches (`models-store.json`, `cursor-*-cache.json`, `mcp-cache.json`), `npm/`
 - general: `**/node_modules`, `**/.git` (never track nested-repo metadata), `**/*.bak`, `.DS_Store`
 
 **Pi extensions — own vs external** (classify before `chezmoi add`): check the `packages` array in `~/.pi/agent/settings.json`. Listed there (e.g. `npm:@guneriu/pi-files`) → external; its code is reinstalled by the package manager, so ignore the code and track only user-config files (`settings.json`/`config.json`) in the local dir. **Not** listed → the user's own; track source + config. Dev-checkout extensions that carry their own `.git` (e.g. `pi-clinepass-provider`) are tracked minus `.git/` + `node_modules/` (both excluded globally above).

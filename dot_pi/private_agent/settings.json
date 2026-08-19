@@ -2,7 +2,7 @@
   "lastChangelogVersion": "0.84.2",
   "defaultProvider": "ollama-cloud",
   "defaultModel": "glm-5.2",
-  "defaultThinkingLevel": "xhigh",
+  "defaultThinkingLevel": "high",
   "packages": [
     "npm:@aaronkyriesenbach/pi-package-manager",
     "npm:pi-ollama-cloud",

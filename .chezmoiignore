@@ -36,6 +36,7 @@ README.md
 .pi/agent/mcp-cache.json
 .pi/agent/pi-web-update-check.json
 .pi/agent/auto-update.json
+.pi/agent/config/skill-gate-analytics.json
 .pi/agent/subagent-profiles
 .pi/agent/pi-atelier.json
 # own/dev-checkout extension dirs are tracked (not ignored); .git + node_modules
